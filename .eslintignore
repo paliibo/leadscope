@@ -1,1 +1,8 @@
 node_modules
+.next
+out
+coverage
+drizzle
+data
+playwright-report
+test-results

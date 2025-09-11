@@ -1,22 +1,42 @@
 {
+  "extends": ["next/core-web-vitals", "next/typescript"],
   "plugins": ["unused-imports", "perfectionist"],
-  "extends": ["next/core-web-vitals", "plugin:perfectionist/recommended-natural"],
-  "ignorePatterns": ["node_modules", "build", ".history", "next"],
-  "rules": {},
+  "rules": {
+    "@typescript-eslint/no-explicit-any": "warn",
+    "@typescript-eslint/no-unused-vars": "off",
+    "unused-imports/no-unused-imports": "error",
+    "unused-imports/no-unused-vars": [
+      "warn",
+      {
+        "vars": "all",
+        "varsIgnorePattern": "^_",
+        "args": "after-used",
+        "argsIgnorePattern": "^_"
+      }
+    ],
+    "perfectionist/sort-imports": [
+      "warn",
+      {
+        "type": "natural",
+        "order": "asc",
+        "newlinesBetween": "always",
+        "groups": [
+          ["builtin", "external"],
+          "internal",
+          ["parent", "sibling", "index"],
+          "style",
+          "unknown"
+        ],
+        "internalPattern": ["@/**"]
+      }
+    ],
+    "no-console": ["warn", { "allow": ["warn", "error"] }],
+    "eqeqeq": ["error", "smart"]
+  },
   "overrides": [
     {
-      "files": ["*.*"],
-      "rules": {
-        "@next/next/no-html-link-for-pages": "off"
-      }
-    },
-    {
-      "files": ["*.ts", "*.tsx"],
-      "rules": {}
-    },
-    {
-      "files": ["*.js", "*.jsx"],
-      "rules": {}
+      "files": ["scripts/**/*.ts", "tests/**/*.ts", "e2e/**/*.ts"],
+      "rules": { "no-console": "off" }
     }
   ]
 }

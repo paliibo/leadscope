@@ -1,11 +1,7 @@
-# lockfile
-pnpm-lock.yaml
-
-# dependencies
 node_modules
-
-# builds
 .next
-
-# env files
-.env
+out
+coverage
+drizzle
+pnpm-lock.yaml
+public
