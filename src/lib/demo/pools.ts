@@ -1,0 +1,97 @@
+/** Static pools the demo generator draws from. Kept in one file so the dataset
+ *  can be regenerated identically from a seed without any network access. */
+
+export const FIRST_NAMES = [
+  'Amara', 'Bogdan', 'Caleb', 'Dagny', 'Elif', 'Farid', 'Greta', 'Hana',
+  'Ivan', 'Juno', 'Kiera', 'Lars', 'Maya', 'Nikolai', 'Ola', 'Priya',
+  'Quentin', 'Rania', 'Soren', 'Tamsin', 'Ugo', 'Vera', 'Wren', 'Xenia',
+  'Yusuf', 'Zara', 'Anouk', 'Bruno', 'Csilla', 'Dmitri', 'Elena', 'Felix',
+  'Gabriela', 'Henrik', 'Ines', 'Jonas', 'Katia', 'Leon', 'Mira', 'Noor',
+] as const
+
+export const LAST_NAMES = [
+  'Alvarez', 'Barros', 'Cheng', 'Dvorak', 'Eriksen', 'Fontaine', 'Grimaldi',
+  'Haruki', 'Ibrahim', 'Jansen', 'Kowalski', 'Lindqvist', 'Moreau', 'Nakamura',
+  'Okafor', 'Petrov', 'Quintana', 'Rossi', 'Silva', 'Tanaka', 'Ueda', 'Vasquez',
+  'Weber', 'Ximenes', 'Yilmaz', 'Zadeh', 'Novak', 'Bergman', 'Costa', 'Duarte',
+] as const
+
+export const COMPANY_PREFIXES = [
+  'North', 'Lumen', 'Vertex', 'Atlas', 'Quanta', 'Helio', 'Terra', 'Nimbus',
+  'Kestrel', 'Orbit', 'Solstice', 'Cobalt', 'Pinnacle', 'Verdant', 'Harbor',
+  'Meridian', 'Cinder', 'Halcyon', 'Aurora', 'Basalt', 'Cadence', 'Delta',
+] as const
+
+export const COMPANY_SUFFIXES = [
+  'Labs', 'Systems', 'Dynamics', 'Works', 'Collective', 'Industries', 'Group',
+  'Analytics', 'Robotics', 'Health', 'Logistics', 'Financial', 'Studio',
+  'Networks', 'Foundry', 'Digital',
+] as const
+
+export const INDUSTRIES = [
+  'SaaS',
+  'Fintech',
+  'Healthcare',
+  'Logistics',
+  'Manufacturing',
+  'Retail',
+  'Energy',
+  'Education',
+  'Media',
+] as const
+
+export const SIZE_BUCKETS = ['1-10', '11-50', '51-200', '201-1000', '1000+'] as const
+
+export const COUNTRIES = [
+  'United States', 'Germany', 'United Kingdom', 'Poland', 'Netherlands',
+  'Canada', 'Sweden', 'Spain', 'Ukraine', 'Portugal', 'France', 'Japan',
+] as const
+
+export const BUYER_TITLES = [
+  'Head of Revenue Operations',
+  'VP of Sales',
+  'Chief Technology Officer',
+  'Director of Growth',
+  'Head of Partnerships',
+  'Procurement Lead',
+  'Operations Manager',
+  'Chief Financial Officer',
+  'Head of Customer Success',
+  'Product Director',
+] as const
+
+export const REP_TITLES = [
+  'Account Executive',
+  'Senior Account Executive',
+  'Enterprise AE',
+  'Sales Development Rep',
+  'Partnerships Manager',
+  'Regional Sales Lead',
+] as const
+
+export const TEAM_NAMES = [
+  { name: 'Northstar', region: 'North America' },
+  { name: 'Meridian', region: 'EMEA' },
+  { name: 'Solstice', region: 'APAC' },
+  { name: 'Foundry', region: 'LATAM' },
+] as const
+
+export const LOST_REASONS = [
+  'Budget frozen this quarter',
+  'Chose a competitor',
+  'No decision — went quiet',
+  'Timing: revisit next fiscal year',
+  'Missing must-have integration',
+  'Champion left the company',
+  'Priced above their band',
+] as const
+
+export const NOTE_TEMPLATES = [
+  'Shared the security questionnaire, waiting on IT sign-off.',
+  'They want a side-by-side against their current vendor.',
+  'Champion is building the internal business case.',
+  'Asked for a pilot scoped to one team first.',
+  'Legal review started; redlines expected next week.',
+  'Wants references from a similar-sized team.',
+  'Budget confirmed, procurement is the last gate.',
+] as const
