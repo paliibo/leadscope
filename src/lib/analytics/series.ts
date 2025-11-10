@@ -54,15 +54,16 @@ export function toSeries<T>(
     to: Date
     granularity: Granularity
     timestampOf: (record: T) => number
-    valueOf?: (record: T) => number
+    /** Contribution of each record to its bucket; defaults to a count of 1. */
+    weightOf?: (record: T) => number
   },
 ): SeriesPoint[] {
-  const { from, to, granularity, timestampOf, valueOf = () => 1 } = options
+  const { from, to, granularity, timestampOf, weightOf = () => 1 } = options
 
   const totals = new Map<string, number>()
   for (const record of records) {
     const { key } = bucketStart(timestampOf(record), granularity)
-    totals.set(key, (totals.get(key) ?? 0) + valueOf(record))
+    totals.set(key, (totals.get(key) ?? 0) + weightOf(record))
   }
 
   const points: SeriesPoint[] = []

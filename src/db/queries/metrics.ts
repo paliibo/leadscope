@@ -187,7 +187,7 @@ export async function getTimeseries(options: {
       to,
       granularity,
       timestampOf: (row) => (row.closedAt as Date).getTime(),
-      valueOf: (row) => row.valueCents,
+      weightOf: (row) => row.valueCents,
     }),
     touches: toSeries(touched, {
       from,
