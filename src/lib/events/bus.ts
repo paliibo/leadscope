@@ -1,5 +1,15 @@
 import type { Envelope, LeadscopeEvent, PulseSnapshot } from './types'
 
+/**
+ * `Omit` over a union collapses to the keys the members share, which would
+ * throw away the per-variant fields. Distributing it keeps each variant intact.
+ */
+type DistributiveOmit<T, K extends PropertyKey> = T extends unknown ? Omit<T, K> : never
+
+export type PublishableEvent = DistributiveOmit<LeadscopeEvent, 'id' | 'at'> & {
+  at?: number
+}
+
 type Listener = (envelope: Envelope) => void
 
 const REPLAY_BUFFER_SIZE = 100
@@ -31,7 +41,7 @@ export class EventBus {
   }
 
   /** Stamp an event with an id and timestamp, buffer it, and fan it out. */
-  publish(event: Omit<LeadscopeEvent, 'id' | 'at'> & { at?: number }): LeadscopeEvent {
+  publish(event: PublishableEvent): LeadscopeEvent {
     const stamped = {
       ...event,
       id: this.nextId++,
