@@ -110,6 +110,30 @@ export async function listLeads(query: LeadListQuery): Promise<LeadPage> {
   }
 }
 
+/**
+ * Every lead matching a filter, ignoring pagination. Used by the CSV export.
+ * Hard-capped so a pathological filter can't try to stream the whole table into
+ * memory at once.
+ */
+export async function listAllLeads(
+  query: Omit<LeadListQuery, 'page' | 'pageSize'>,
+  cap = 5000,
+): Promise<LeadWithRelations[]> {
+  const orderColumn = sortColumns[query.sort]
+  const direction = query.dir === 'asc' ? asc : desc
+
+  const rows = await db
+    .select(selection)
+    .from(leads)
+    .innerJoin(accounts, eq(leads.accountId, accounts.id))
+    .innerJoin(reps, eq(leads.ownerId, reps.id))
+    .where(buildFilters(query))
+    .orderBy(direction(orderColumn), desc(leads.id))
+    .limit(cap)
+
+  return rows as LeadWithRelations[]
+}
+
 export async function getLead(id: string): Promise<LeadWithRelations | null> {
   const [row] = await db
     .select(selection)
