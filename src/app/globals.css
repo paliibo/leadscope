@@ -1,77 +1,142 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/*
+ * Graphik Compact is inherited from the original LinkMe exercise and is kept for
+ * the wordmark only. Body copy uses the platform UI stack, which ships more
+ * weights than the single OTF in this repo and renders sharper at small sizes.
+ */
 @font-face {
-    font-family: 'Graphik';
-    src: url('/fonts/GraphikCompact-Regular.otf') format('truetype');
-    font-weight: 400;
-    line-height: 1.2;
-}
-
-.swiper-button-next:after{
-    font-weight: bold;
-}
-.swiper-wrapper {
-    height: fit-content !important;
-}
-.swiper-slide {
-    display: flex !important;
-    justify-content: center !important;
-    align-items: center !important;
-    height: fit-content !important;
-}
-
-swiper-slide-active {
-    height: fit-content !important;
+  font-family: 'Graphik';
+  src: url('/fonts/GraphikCompact-Regular.otf') format('opentype');
+  font-weight: 400;
+  font-display: swap;
 }
 
 :root {
-    --swiper-navigation-top-offset: 50%;
-    --swiper-navigation-sides-offset: 10px;
-    --swiper-navigation-size: 1rem !important;
-    --swiper-navigation-color: white;
-    --foreground-rgb: 0, 0, 0;
-    --background-start-rgb: 214, 219, 220;
-    --background-end-rgb: 255, 255, 255;
+  --ls-canvas: 244 246 252;
+  --ls-surface: 255 255 255;
+  --ls-surface-muted: 246 248 253;
+  --ls-line: 226 231 243;
+  --ls-ink: 27 26 43;
+  --ls-ink-muted: 88 91 116;
+  --ls-ink-subtle: 138 142 166;
+  --ls-brand: 81 112 255;
+  --ls-brand-soft: 214 221 255;
+  --ls-brand-ink: 42 60 168;
+  --ls-violet: 168 122 255;
+  --ls-positive: 22 155 108;
+  --ls-negative: 214 69 80;
+  --ls-warning: 199 132 30;
+
+  color-scheme: light;
 }
 
-body {
-    color: rgb(var(--foreground-rgb));
-    background: #e4e4e5 linear-gradient(146deg, rgba(252, 253, 255, 1) 6.42%, rgba(229, 234, 253, 1) 47%, rgba(237, 240, 250, 1) 90%);
+[data-theme='dark'] {
+  --ls-canvas: 11 12 20;
+  --ls-surface: 20 22 34;
+  --ls-surface-muted: 27 29 44;
+  --ls-line: 42 45 64;
+  --ls-ink: 233 235 245;
+  --ls-ink-muted: 158 163 186;
+  --ls-ink-subtle: 112 117 142;
+  --ls-brand: 124 148 255;
+  --ls-brand-soft: 46 56 104;
+  --ls-brand-ink: 186 200 255;
+  --ls-violet: 186 148 255;
+  --ls-positive: 52 189 133;
+  --ls-negative: 244 110 120;
+  --ls-warning: 226 168 62;
+
+  color-scheme: dark;
 }
 
-.tooltip-wrapper {
-    display: flex;
-    flex-direction: column;
-    gap: 0.4rem;
-    border-radius: 15px;
-    padding: 1rem;
-    line-height: 1;
-    box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.25);
-    background-color: #f7f8fd;
+@layer base {
+  * {
+    border-color: rgb(var(--ls-line));
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    @apply bg-canvas text-ink antialiased;
+    font-family:
+      -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue',
+      Arial, sans-serif;
+    font-feature-settings: 'cv02', 'cv03', 'cv04';
+    min-height: 100dvh;
+  }
+
+  /* Figures line up column to column when they share a tabular width. */
+  .tnum {
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: 'tnum';
+  }
+
+  ::selection {
+    background: rgb(var(--ls-brand) / 0.24);
+  }
+
+  /* A focus ring that is visible on both themes without being shouty. */
+  :focus-visible {
+    outline: 2px solid rgb(var(--ls-brand));
+    outline-offset: 2px;
+    border-radius: 6px;
+  }
+
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: rgb(var(--ls-line));
+    border-radius: 999px;
+    border: 2px solid transparent;
+    background-clip: content-box;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgb(var(--ls-ink-subtle) / 0.5);
+    background-clip: content-box;
+  }
 }
 
-.tooltip-dayTitle {
-    font-size: 0.65rem; /* 14px */
-    line-height: 1;
-    color: rgba(39,37,54,0.6);
-    letter-spacing: 0.025rem;
+@layer components {
+  .surface-card {
+    @apply rounded-card border border-line bg-surface shadow-card;
+  }
+
+  .wordmark {
+    font-family: 'Graphik', -apple-system, sans-serif;
+    letter-spacing: -0.02em;
+  }
+
+  /* Shimmer used by every skeleton, so loading states feel like one system. */
+  .skeleton {
+    @apply relative overflow-hidden rounded-md bg-surface-muted;
+  }
+  .skeleton::after {
+    @apply absolute inset-0 animate-shimmer;
+    content: '';
+    transform: translateX(-100%);
+    background-image: linear-gradient(
+      90deg,
+      transparent,
+      rgb(var(--ls-ink) / 0.06),
+      transparent
+    );
+  }
 }
 
-.tooltip-leadsNumber {
-    font-size: 2rem; /* 18px */
-    line-height: 1;
-    color: #302d43;
-}
-
-.tooltip-dayOfWeek {
-    font-size: 0.875rem; /* 16px */
-    line-height: 1;
-    color: rgba(39,37,54,0.6);
-}
-
-@layer utilities {
-    .text-balance {
-        text-wrap: balance;
-    }
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
