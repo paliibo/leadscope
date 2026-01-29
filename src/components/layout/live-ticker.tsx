@@ -1,0 +1,116 @@
+'use client'
+
+import { AnimatePresence, motion } from 'framer-motion'
+import {
+  ArrowRight,
+  CalendarCheck,
+  CircleDollarSign,
+  Mail,
+  Phone,
+  Sparkles,
+  StickyNote,
+  XCircle,
+} from 'lucide-react'
+
+import { Avatar } from '@/components/ui'
+import { formatCompactMoney } from '@/lib/money'
+import { cn } from '@/lib/utils'
+
+import { useLive } from '../providers/live-provider'
+
+import type { LeadscopeEvent } from '@/lib/events/types'
+import type { LucideIcon } from 'lucide-react'
+
+function iconFor(event: LeadscopeEvent): { Icon: LucideIcon; tone: string } {
+  switch (event.type) {
+    case 'lead.created':
+      return { Icon: Sparkles, tone: 'text-violet' }
+    case 'lead.stage_changed':
+      return { Icon: ArrowRight, tone: 'text-brand' }
+    case 'deal.won':
+      return { Icon: CircleDollarSign, tone: 'text-positive' }
+    case 'deal.lost':
+      return { Icon: XCircle, tone: 'text-negative' }
+    case 'lead.touched':
+      return {
+        Icon:
+          event.activity === 'call_logged'
+            ? Phone
+            : event.activity === 'meeting_booked'
+              ? CalendarCheck
+              : event.activity === 'note_added'
+                ? StickyNote
+                : Mail,
+        tone: 'text-ink-subtle',
+      }
+  }
+}
+
+function relativeTime(at: number): string {
+  const seconds = Math.max(0, Math.round((Date.now() - at) / 1000))
+  if (seconds < 5) return 'now'
+  if (seconds < 60) return `${seconds}s`
+  const minutes = Math.floor(seconds / 60)
+  if (minutes < 60) return `${minutes}m`
+  return `${Math.floor(minutes / 60)}h`
+}
+
+/**
+ * The live activity feed. New events animate in at the top; nothing below moves
+ * more than it has to, so the list stays readable while it updates.
+ */
+export function LiveTicker({ limit = 12 }: { limit?: number }) {
+  const { events } = useLive()
+  const visible = events.slice(0, limit)
+
+  if (visible.length === 0) {
+    return (
+      <ul className="flex flex-col gap-3" aria-live="polite">
+        {Array.from({ length: 5 }, (_, index) => (
+          <li key={index} className="flex items-center gap-3">
+            <span className="skeleton h-8 w-8 rounded-full" />
+            <span className="skeleton h-4 flex-1" />
+          </li>
+        ))}
+      </ul>
+    )
+  }
+
+  return (
+    <ul className="flex flex-col" aria-live="polite" aria-label="Live pipeline activity">
+      <AnimatePresence initial={false}>
+        {visible.map((event) => {
+          const { Icon, tone } = iconFor(event)
+          return (
+            <motion.li
+              key={event.id}
+              layout
+              initial={{ opacity: 0, y: -8 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.24, ease: [0.22, 1, 0.36, 1] }}
+              className="flex items-start gap-3 border-b border-line/60 py-2.5 last:border-0"
+            >
+              <Avatar name={event.actor.name} src={event.actor.avatarUrl} size="sm" />
+              <div className="min-w-0 flex-1">
+                <p className="truncate text-sm text-ink">
+                  <Icon className={cn('mr-1.5 inline h-3.5 w-3.5 align-[-2px]', tone)} aria-hidden />
+                  {event.summary}
+                </p>
+                <p className="mt-0.5 truncate text-2xs text-ink-subtle">
+                  {event.actor.name}
+                  {event.type === 'deal.won' || event.type === 'lead.created'
+                    ? ` · ${formatCompactMoney(event.subject.valueCents)}`
+                    : ''}
+                </p>
+              </div>
+              <span className="tnum shrink-0 pt-0.5 text-2xs text-ink-subtle">
+                {relativeTime(event.at)}
+              </span>
+            </motion.li>
+          )
+        })}
+      </AnimatePresence>
+    </ul>
+  )
+}
