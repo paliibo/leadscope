@@ -77,7 +77,17 @@ const DWELL_DAYS: Record<string, number> = {
  * in place — that population is what the "stalled deals" report exists to catch,
  * and without it the pipeline board would only ever hold last week's arrivals.
  */
-const STALL_SHARE = 0.38
+const STALL_SHARE = 0.34
+
+/**
+ * Quiet deals don't stay in the pipeline forever. Most get swept up in a
+ * hygiene pass a month or two later and closed out; the rest linger, and those
+ * are the ones worth surfacing. Without this the open pipeline would be a
+ * 14-month graveyard and every velocity number computed from it would be wrong.
+ */
+const HYGIENE_CLOSE_SHARE = 0.82
+const HYGIENE_MIN_DAYS = 35
+const HYGIENE_MAX_DAYS = 95
 
 const PIPELINE: LeadStage[] = [
   'new',
@@ -238,6 +248,9 @@ export function generateDataset(options: GenerateOptions): GeneratedDataset {
   const activities: NewActivity[] = []
   let activitySeq = 0
 
+  /** Newest activity timestamp for the lead currently being generated. */
+  let lastTouchAt = 0
+
   const pushActivity = (
     leadId: string,
     repId: string,
@@ -246,6 +259,7 @@ export function generateDataset(options: GenerateOptions): GeneratedDataset {
     at: number,
     extra: Partial<NewActivity> = {},
   ) => {
+    if (at > lastTouchAt) lastTouchAt = at
     activities.push({
       id: `act_${activitySeq++}`,
       leadId,
@@ -300,6 +314,7 @@ export function generateDataset(options: GenerateOptions): GeneratedDataset {
 
     const leadName = makeName(rng)
     const leadId = `lead_${i}_${slugify(leadName)}`
+    lastTouchAt = 0
 
     pushActivity(
       leadId,
@@ -352,7 +367,41 @@ export function generateDataset(options: GenerateOptions): GeneratedDataset {
       const odds = Math.min(0.97, (ADVANCE_ODDS[current] as number) * skill * quality)
       if (!rng.chance(odds)) {
         if (rng.chance(STALL_SHARE)) {
-          // The deal goes quiet: still open, but nothing is moving.
+          // The deal goes quiet: still open, but nothing is moving. A stalled
+          // deal is not abandoned though — reps keep poking at it, so scatter a
+          // few follow-ups between here and now. Without them every stalled lead
+          // would look untouched for a year and the "needs attention" report
+          // would flag most of the open book.
+          const followUps = rng.int(0, 3)
+          for (let f = 0; f < followUps; f += 1) {
+            const at = nextAt + rng.float() * (options.now - nextAt)
+            if (at > options.now) continue
+            touchCount += 1
+            pushActivity(
+              leadId,
+              owner.id,
+              'email_sent',
+              `Followed up with ${leadName.split(' ')[0]} — no reply yet`,
+              at,
+            )
+          }
+
+          const sweepAt = nextAt + rng.int(HYGIENE_MIN_DAYS, HYGIENE_MAX_DAYS) * DAY
+          if (sweepAt <= options.now && rng.chance(HYGIENE_CLOSE_SHARE)) {
+            lostReason = 'No decision — went quiet'
+            pushActivity(
+              leadId,
+              owner.id,
+              'deal_lost',
+              `${account.name} closed lost — no decision, went quiet`,
+              sweepAt,
+              { fromStage: current, toStage: 'lost', valueCents },
+            )
+            stage = 'lost'
+            closedAt = sweepAt
+            break
+          }
+
           stage = current
           break
         }
@@ -400,7 +449,9 @@ export function generateDataset(options: GenerateOptions): GeneratedDataset {
       if (stage === 'won' || stage === 'lost') break
     }
 
-    const lastTouch = activities[activities.length - 1]?.createdAt.getTime() ?? createdAt
+    // Follow-ups are scattered rather than appended in order, so take the max
+    // rather than trusting the last push.
+    const lastTouch = lastTouchAt || createdAt
     const { score } = scoreLead({
       source,
       sizeBucket: account.sizeBucket,
