@@ -40,6 +40,11 @@ export function RevenueCard({ days }: { days: number }) {
   const rising = trend.slope >= 0
   const total = historical.reduce((sum, value) => sum + value, 0)
 
+  // Daily revenue is lumpy — a handful of deals a day — so R² is usually low.
+  // Say so plainly rather than presenting a weak fit as a forecast.
+  const fit =
+    trend.r2 >= 0.5 ? 'strong' : trend.r2 >= 0.15 ? 'moderate' : 'noisy'
+
   return (
     <Card className="flex flex-col">
       <CardHeader
@@ -61,7 +66,7 @@ export function RevenueCard({ days }: { days: number }) {
           {formatCompactMoney(total)}
         </p>
         <p className="mt-1.5 text-sm text-ink-muted">
-          Model fit R² {trend.r2.toFixed(2)} · dashed line is the projection
+          Trend fit R² {trend.r2.toFixed(2)} ({fit}) · dashed line is the projection
         </p>
       </div>
       <div className="px-2 pb-4">
