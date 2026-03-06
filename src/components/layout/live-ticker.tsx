@@ -1,6 +1,7 @@
 'use client'
 
 import { AnimatePresence, motion } from 'framer-motion'
+import { useEffect, useState } from 'react'
 import {
   ArrowRight,
   CalendarCheck,
@@ -62,6 +63,14 @@ function relativeTime(at: number): string {
 export function LiveTicker({ limit = 12 }: { limit?: number }) {
   const { events } = useLive()
   const visible = events.slice(0, limit)
+
+  // Relative timestamps are computed at render. During a quiet stretch nothing
+  // re-renders, so tick the component to keep "2m ago" from freezing at "now".
+  const [, tick] = useState(0)
+  useEffect(() => {
+    const timer = setInterval(() => tick((n) => n + 1), 20_000)
+    return () => clearInterval(timer)
+  }, [])
 
   if (visible.length === 0) {
     return (
