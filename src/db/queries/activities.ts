@@ -1,4 +1,4 @@
-import { and, desc, eq, gte, lte } from 'drizzle-orm'
+import { and, desc, eq, gte, inArray, lte } from 'drizzle-orm'
 
 import { db } from '@/db'
 import { accounts, activities, leads, reps, type NewActivity } from '@/db/schema'
@@ -61,7 +61,14 @@ export async function recordActivity(activity: NewActivity): Promise<void> {
   await db.insert(activities).values(activity)
 }
 
-/** Stage transitions in a window, for the velocity report. */
+/**
+ * Stage transitions in a window, for the velocity report.
+ *
+ * Includes creation and close events, not just `stage_changed`: dwell time is
+ * measured between consecutive transitions, so without the bookends there is no
+ * sample for the first stage (nothing precedes it) or the last (nothing follows
+ * it), and the report silently loses `new` and `negotiation`.
+ */
 export async function getStageTransitions(
   from: Date,
   to: Date,
@@ -76,7 +83,12 @@ export async function getStageTransitions(
     .from(activities)
     .where(
       and(
-        eq(activities.type, 'stage_changed'),
+        inArray(activities.type, [
+          'lead_created',
+          'stage_changed',
+          'deal_won',
+          'deal_lost',
+        ]),
         gte(activities.createdAt, from),
         lte(activities.createdAt, to),
       ),
