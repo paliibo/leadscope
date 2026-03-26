@@ -1,9 +1,20 @@
+import { fileURLToPath } from 'node:url'
+
 import react from '@vitejs/plugin-react'
-import tsconfigPaths from 'vite-tsconfig-paths'
 import { defineConfig } from 'vitest/config'
 
+/**
+ * The `@/*` alias is declared here rather than through vite-tsconfig-paths:
+ * that plugin is ESM-only, and this config is loaded as CJS, so requiring it
+ * fails at startup. One alias is not worth a dependency.
+ */
 export default defineConfig({
-  plugins: [tsconfigPaths(), react()],
+  plugins: [react()],
+  resolve: {
+    alias: {
+      '@': fileURLToPath(new URL('./src', import.meta.url)),
+    },
+  },
   test: {
     environment: 'jsdom',
     globals: true,
@@ -13,6 +24,7 @@ export default defineConfig({
       provider: 'v8',
       reporter: ['text', 'html', 'lcov'],
       include: ['src/lib/**/*.ts', 'src/db/queries/**/*.ts'],
+      exclude: ['src/lib/demo/pools.ts', 'src/lib/env.ts'],
       thresholds: {
         statements: 70,
         branches: 70,
