@@ -8,6 +8,11 @@ const COMPACT = new Intl.NumberFormat('en-US', {
   maximumFractionDigits: 1,
 })
 
+/** Below $1000 compact notation adds nothing, and it rounds $0.99 up to $1. */
+const SMALL = new Intl.NumberFormat('en-US', {
+  maximumFractionDigits: 2,
+})
+
 const FULL = new Intl.NumberFormat('en-US', {
   style: 'currency',
   currency: 'USD',
@@ -21,11 +26,13 @@ const PRECISE = new Intl.NumberFormat('en-US', {
   maximumFractionDigits: 2,
 })
 
-/** `1_234_500` -> `"$12.3K"` */
+/** `1_234_500` -> `"$12.3K"`, `99` -> `"$0.99"` */
 export function formatCompactMoney(cents: number): string {
   const dollars = cents / 100
+  const magnitude = Math.abs(dollars)
   const sign = dollars < 0 ? '-' : ''
-  return `${sign}$${COMPACT.format(Math.abs(dollars))}`
+  const formatter = magnitude < 1000 ? SMALL : COMPACT
+  return `${sign}$${formatter.format(magnitude)}`
 }
 
 /** `1_234_500` -> `"$12,345"` */
