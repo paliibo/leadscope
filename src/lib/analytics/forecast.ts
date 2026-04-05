@@ -1,3 +1,5 @@
+import { format } from 'date-fns'
+
 import type { SeriesPoint } from './series'
 
 export interface Regression {
@@ -144,7 +146,10 @@ export function extendSeries(
     ...projected.map((point, offset) => {
       const timestamp = last.timestamp + stepMs * (offset + 1)
       return {
-        date: new Date(timestamp).toISOString().slice(0, 10),
+        // Local time, matching how `toSeries` labels its buckets. Using UTC
+        // here would shift the projection a day relative to the history it is
+        // attached to for anyone west of Greenwich.
+        date: format(new Date(timestamp), 'yyyy-MM-dd'),
         timestamp,
         value: Math.round(point.value),
         lower: Math.round(point.lower),
