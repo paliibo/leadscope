@@ -115,7 +115,7 @@ export function LeadsTable({ initialQuery = '' }: { initialQuery?: string }) {
                     key={column.label}
                     scope="col"
                     className={cn(
-                      'whitespace-nowrap px-4 py-3 text-2xs font-medium uppercase tracking-wide text-ink-subtle',
+                      'whitespace-nowrap px-3 py-3 text-2xs font-medium uppercase tracking-wide text-ink-subtle sm:px-4',
                       column.className,
                     )}
                     aria-sort={
@@ -168,18 +168,19 @@ export function LeadsTable({ initialQuery = '' }: { initialQuery?: string }) {
                       }}
                       className="cursor-pointer border-b border-line/60 transition-colors last:border-0 hover:bg-surface-muted"
                     >
-                      <td className="px-4 py-3">
-                        <span className="block max-w-48 truncate font-medium text-ink">
+                      <td className="px-3 py-3 sm:px-4">
+                        {/* Narrower on phones so the value column stays on screen. */}
+                        <span className="block max-w-32 truncate font-medium text-ink sm:max-w-48">
                           {lead.name}
                         </span>
-                        <span className="block max-w-48 truncate text-2xs text-ink-subtle">
+                        <span className="block max-w-32 truncate text-2xs text-ink-subtle sm:max-w-48">
                           {lead.title}
                         </span>
                       </td>
-                      <td className="hidden max-w-44 truncate px-4 py-3 text-ink-muted lg:table-cell">
+                      <td className="hidden max-w-44 truncate px-3 py-3 text-ink-muted sm:px-4 lg:table-cell">
                         {lead.accountName}
                       </td>
-                      <td className="hidden px-4 py-3 xl:table-cell">
+                      <td className="hidden px-3 py-3 sm:px-4 xl:table-cell">
                         <span className="flex items-center gap-2 text-ink-muted">
                           <Avatar
                             name={lead.ownerName}
@@ -189,16 +190,16 @@ export function LeadsTable({ initialQuery = '' }: { initialQuery?: string }) {
                           <span className="max-w-32 truncate">{lead.ownerName}</span>
                         </span>
                       </td>
-                      <td className="px-4 py-3">
+                      <td className="px-3 py-3 sm:px-4">
                         <StagePill stage={lead.stage} />
                       </td>
-                      <td className="tnum px-4 py-3 text-right font-medium text-ink">
+                      <td className="tnum px-3 py-3 text-right font-medium text-ink sm:px-4">
                         {formatMoney(lead.valueCents)}
                       </td>
-                      <td className="tnum hidden px-4 py-3 text-right text-ink-muted sm:table-cell">
+                      <td className="tnum hidden px-3 py-3 text-right text-ink-muted sm:table-cell sm:px-4">
                         {lead.score}
                       </td>
-                      <td className="tnum hidden whitespace-nowrap px-4 py-3 text-right text-ink-subtle md:table-cell">
+                      <td className="tnum hidden whitespace-nowrap px-3 py-3 text-right text-ink-subtle sm:px-4 md:table-cell">
                         {new Date(lead.updatedAt).toLocaleDateString('en-US', {
                           month: 'short',
                           day: 'numeric',
