@@ -1,7 +1,7 @@
 import { cn } from '@/lib/utils'
 
 /**
- * A dependency-free sparkline. Chart.js is already in the bundle for the big
+ * A dependency-free sparkline. Chart.js is already in the bundle for the large
  * charts, but instantiating a canvas per KPI tile costs far more than drawing
  * one path, and these never need axes, tooltips or interaction.
  */
@@ -33,8 +33,7 @@ export function Sparkline({
 
   const points = values.map((value, index) => {
     const x = index * stepX
-    const y =
-      height - padding - ((value - min) / span) * (height - padding * 2)
+    const y = height - padding - ((value - min) / span) * (height - padding * 2)
     return [x, y] as const
   })
 
@@ -56,36 +55,54 @@ export function Sparkline({
     negative: 'fill-negative/10',
     muted: 'fill-ink-subtle/10',
   } as const
+  const dots = {
+    brand: 'bg-brand',
+    positive: 'bg-positive',
+    negative: 'bg-negative',
+    muted: 'bg-ink-subtle',
+  } as const
 
-  const last = points[points.length - 1]
+  const last = points[points.length - 1] as readonly [number, number]
 
   return (
-    <svg
-      viewBox={`0 0 ${width} ${height}`}
-      className={cn('h-8 w-full overflow-visible', className)}
-      preserveAspectRatio="none"
-      aria-hidden
-    >
-      {filled ? <path d={area} className={fills[tone]} /> : null}
-      <path
-        d={line}
-        fill="none"
-        strokeWidth={1.75}
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        className={strokes[tone]}
-        vectorEffect="non-scaling-stroke"
-      />
-      {last ? (
-        <circle
-          cx={last[0]}
-          cy={last[1]}
-          r={2.5}
-          className={cn(strokes[tone], 'fill-surface')}
-          strokeWidth={1.5}
+    <div className={cn('relative h-8 w-full', className)}>
+      <svg
+        viewBox={`0 0 ${width} ${height}`}
+        className="h-full w-full"
+        preserveAspectRatio="none"
+        aria-hidden
+      >
+        {filled ? <path d={area} className={fills[tone]} /> : null}
+        <path
+          d={line}
+          fill="none"
+          strokeWidth={1.75}
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          className={strokes[tone]}
+          // Without this the stroke is squashed along with the geometry, because
+          // preserveAspectRatio="none" scales x and y by different factors.
           vectorEffect="non-scaling-stroke"
         />
-      ) : null}
-    </svg>
+      </svg>
+
+      {/*
+        The end-of-series marker is a DOM node rather than an SVG circle: inside
+        a non-uniformly scaled viewBox a circle renders as an ellipse, and it
+        gets clipped at the right edge. Positioning it in percentages keeps it
+        round and inside the box at any width.
+      */}
+      <span
+        aria-hidden
+        className={cn(
+          'absolute h-1.5 w-1.5 -translate-x-1/2 -translate-y-1/2 rounded-full ring-2 ring-surface',
+          dots[tone],
+        )}
+        style={{
+          left: `calc(${((last[0] / width) * 100).toFixed(2)}% - 1px)`,
+          top: `${((last[1] / height) * 100).toFixed(2)}%`,
+        }}
+      />
+    </div>
   )
 }
