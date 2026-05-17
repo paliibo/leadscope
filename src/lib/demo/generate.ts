@@ -116,12 +116,11 @@ const SOURCE_WEIGHTS: ReadonlyArray<readonly [LeadSource, number]> = [
   ['partner', 8],
 ]
 
-const TOUCH_TYPES = [
-  'email_sent',
-  'call_logged',
-  'meeting_booked',
-  'note_added',
-] as const satisfies ReadonlyArray<ActivityType>
+/** The subset of activity types that count as a touch on an open deal. */
+type TouchType = Extract<
+  ActivityType,
+  'email_sent' | 'call_logged' | 'meeting_booked' | 'note_added'
+>
 
 function slugify(value: string): string {
   return value
@@ -348,7 +347,7 @@ export function generateDataset(options: GenerateOptions): GeneratedDataset {
           ['call_logged', 26],
           ['note_added', 22],
           ['meeting_booked', 12],
-        ] as ReadonlyArray<readonly [(typeof TOUCH_TYPES)[number], number]>)
+        ] as ReadonlyArray<readonly [TouchType, number]>)
         if (type === 'meeting_booked') hasMeeting = true
         touchCount += 1
         const summary =
