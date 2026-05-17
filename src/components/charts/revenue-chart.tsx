@@ -1,5 +1,6 @@
 'use client'
 
+import type { ChartOptions, Chart as ChartJSInstance } from 'chart.js'
 import { useTheme } from 'next-themes'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { Line } from 'react-chartjs-2'
@@ -8,8 +9,6 @@ import { movingAverage } from '@/lib/analytics/series'
 import { formatCompactMoney } from '@/lib/money'
 
 import { areaGradient, registerCharts, token } from './chart-setup'
-
-import type { ChartOptions, Chart as ChartJSInstance } from 'chart.js'
 
 registerCharts()
 
@@ -166,7 +165,10 @@ export function RevenueChart({
         },
       } satisfies ChartOptions<'line'>,
     }
-    // resolvedTheme is a real dependency: every colour above is read from it.
+    // resolvedTheme is a real dependency even though it is not referenced by
+    // name: every colour above comes from token(), which reads the CSS custom
+    // properties whose values the theme swaps. eslint cannot see through that.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [points, smoothing, resolvedTheme])
 
   return (

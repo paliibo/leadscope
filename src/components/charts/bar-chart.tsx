@@ -1,12 +1,11 @@
 'use client'
 
+import type { ChartOptions, Chart as ChartJSInstance } from 'chart.js'
 import { useTheme } from 'next-themes'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { Bar } from 'react-chartjs-2'
 
 import { registerCharts, token } from './chart-setup'
-
-import type { ChartOptions, Chart as ChartJSInstance } from 'chart.js'
 
 registerCharts()
 
@@ -105,6 +104,9 @@ export function BarChart({
         },
       } satisfies ChartOptions<'bar'>,
     }
+    // resolvedTheme is a real dependency even though it is not referenced by
+    // name: token() reads CSS custom properties that the theme swaps.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [labels, values, horizontal, formatValue, resolvedTheme])
 
   return (
