@@ -2,7 +2,7 @@
   "name": "leadscope",
   "version": "1.0.0",
   "private": true,
-  "description": "Real-time sales pipeline intelligence \u2014 live lead stream, drag-and-drop pipeline, forecasting and team leaderboards.",
+  "description": "Real-time sales pipeline intelligence — live lead stream, drag-and-drop pipeline, forecasting and team leaderboards.",
   "engines": {
     "node": ">=20.11"
   },
@@ -76,7 +76,6 @@
     "tailwindcss": "^3.4.13",
     "tsx": "^4.19.1",
     "typescript": "^5.6.2",
-    "vite-tsconfig-paths": "^5.0.1",
     "vitest": "^2.1.2"
   }
 }
