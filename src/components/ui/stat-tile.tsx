@@ -1,11 +1,11 @@
-import { Card } from './card'
-import { Delta } from './delta'
-import { Sparkline } from './sparkline'
+import type { LucideIcon } from 'lucide-react'
+import type { ReactNode } from 'react'
 
 import { cn } from '@/lib/utils'
 
-import type { LucideIcon } from 'lucide-react'
-import type { ReactNode } from 'react'
+import { Card } from './card'
+import { Delta } from './delta'
+import { Sparkline } from './sparkline'
 
 export function StatTile({
   label,

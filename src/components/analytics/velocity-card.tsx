@@ -4,11 +4,10 @@ import { useQuery } from '@tanstack/react-query'
 
 import { BarChart } from '@/components/charts/bar-chart'
 import { Card, CardHeader, Skeleton } from '@/components/ui'
-import { api, qs } from '@/lib/api/client'
-import { STAGE_LABELS } from '@/lib/analytics/funnel'
-
-import type { CycleStats, StageDwell } from '@/lib/analytics/velocity'
 import type { LeadStage } from '@/db/schema'
+import { STAGE_LABELS } from '@/lib/analytics/funnel'
+import type { CycleStats, StageDwell } from '@/lib/analytics/velocity'
+import { api, qs } from '@/lib/api/client'
 
 interface VelocityResponse {
   dwell: StageDwell[]

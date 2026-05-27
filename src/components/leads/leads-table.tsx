@@ -13,6 +13,7 @@ import {
   Skeleton,
   StagePill,
 } from '@/components/ui'
+import type { LeadPage, LeadWithRelations } from '@/db/queries/leads'
 import { useDebouncedValue } from '@/hooks/use-debounced-value'
 import { api, qs } from '@/lib/api/client'
 import { formatMoney } from '@/lib/money'
@@ -20,8 +21,6 @@ import { cn } from '@/lib/utils'
 
 import { LeadFiltersBar, type LeadFilters } from './filters'
 import { LeadDrawer } from './lead-drawer'
-
-import type { LeadPage, LeadWithRelations } from '@/db/queries/leads'
 
 type SortKey = 'updatedAt' | 'createdAt' | 'value' | 'score' | 'name'
 

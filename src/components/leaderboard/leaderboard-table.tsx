@@ -14,13 +14,12 @@ import {
   Segmented,
   Skeleton,
 } from '@/components/ui'
+import type { LeaderboardResult } from '@/db/queries/leaderboard'
 import { useDebouncedValue } from '@/hooks/use-debounced-value'
+import type { LeaderboardMetric } from '@/lib/analytics/leaderboard'
 import { api, qs } from '@/lib/api/client'
 import { formatCompactMoney, formatCount, formatPercent } from '@/lib/money'
 import { cn } from '@/lib/utils'
-
-import type { LeaderboardResult } from '@/db/queries/leaderboard'
-import type { LeaderboardMetric } from '@/lib/analytics/leaderboard'
 
 const METRICS = [
   { value: 'revenue', label: 'Revenue' },

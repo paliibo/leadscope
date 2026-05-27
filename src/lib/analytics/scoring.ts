@@ -1,6 +1,5 @@
-import { clamp } from '@/lib/utils'
-
 import type { LeadSource } from '@/db/schema'
+import { clamp } from '@/lib/utils'
 
 /**
  * A transparent, hand-tuned fit score. It is deliberately not a black box: every

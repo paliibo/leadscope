@@ -3,10 +3,9 @@
 import { useQuery } from '@tanstack/react-query'
 
 import { Card, CardHeader, Progress, Skeleton } from '@/components/ui'
+import type { IndustryRow, SourceBreakdownRow } from '@/db/queries/metrics'
 import { api, qs } from '@/lib/api/client'
 import { formatCompactMoney, formatCount, formatPercent } from '@/lib/money'
-
-import type { IndustryRow, SourceBreakdownRow } from '@/db/queries/metrics'
 
 interface ChannelResponse {
   sources: SourceBreakdownRow[]

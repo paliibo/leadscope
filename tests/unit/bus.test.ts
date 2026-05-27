@@ -1,7 +1,6 @@
 import { describe, expect, it, vi } from 'vitest'
 
 import { EventBus } from '@/lib/events/bus'
-
 import type { Envelope } from '@/lib/events/types'
 
 const actor = { repId: 'r1', name: 'Ada', avatarUrl: null }

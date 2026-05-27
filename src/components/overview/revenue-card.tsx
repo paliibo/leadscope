@@ -5,12 +5,11 @@ import { TrendingDown, TrendingUp } from 'lucide-react'
 
 import { RevenueChart, type RevenuePoint } from '@/components/charts/revenue-chart'
 import { Badge, Card, CardHeader, Skeleton } from '@/components/ui'
-import { api, qs } from '@/lib/api/client'
-import { linearRegression } from '@/lib/analytics/forecast'
-import { formatCompactMoney } from '@/lib/money'
-
 import type { TimeseriesResult } from '@/db/queries/metrics'
+import { linearRegression } from '@/lib/analytics/forecast'
 import type { SeriesPoint } from '@/lib/analytics/series'
+import { api, qs } from '@/lib/api/client'
+import { formatCompactMoney } from '@/lib/money'
 
 type Response = TimeseriesResult & {
   forecast: Array<SeriesPoint & { forecast: boolean }> | null

@@ -2,10 +2,9 @@
 
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { useState } from 'react'
+import type { ReactNode } from 'react'
 
 import { ApiRequestError } from '@/lib/api/client'
-
-import type { ReactNode } from 'react'
 
 export function QueryProvider({ children }: { children: ReactNode }) {
   // Created in state so React 18 strict mode doesn't build two clients.

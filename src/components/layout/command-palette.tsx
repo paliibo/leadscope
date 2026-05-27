@@ -3,18 +3,17 @@
 import { useQuery } from '@tanstack/react-query'
 import { Command } from 'cmdk'
 import { Moon, Search, Sun } from 'lucide-react'
-import { useTheme } from 'next-themes'
 import { useRouter } from 'next/navigation'
+import { useTheme } from 'next-themes'
 import { useCallback, useEffect, useState } from 'react'
 
 import { StagePill } from '@/components/ui'
+import type { LeadPage } from '@/db/queries/leads'
 import { useDebouncedValue } from '@/hooks/use-debounced-value'
 import { api, qs } from '@/lib/api/client'
 import { formatCompactMoney } from '@/lib/money'
 
 import { NAV_ITEMS } from './nav'
-
-import type { LeadPage } from '@/db/queries/leads'
 
 /**
  * Command palette (⌘K / Ctrl-K).

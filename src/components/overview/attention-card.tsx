@@ -5,11 +5,10 @@ import { Clock, PartyPopper } from 'lucide-react'
 import Link from 'next/link'
 
 import { Card, CardHeader, EmptyState, Skeleton, StagePill } from '@/components/ui'
+import type { LeadStage } from '@/db/schema'
+import type { CycleStats, StageDwell } from '@/lib/analytics/velocity'
 import { api, qs } from '@/lib/api/client'
 import { formatCompactMoney, formatCount } from '@/lib/money'
-
-import type { CycleStats, StageDwell } from '@/lib/analytics/velocity'
-import type { LeadStage } from '@/db/schema'
 
 interface VelocityResponse {
   dwell: StageDwell[]

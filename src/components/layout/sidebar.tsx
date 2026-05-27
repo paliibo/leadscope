@@ -6,11 +6,10 @@ import { usePathname, useRouter } from 'next/navigation'
 
 import { Avatar } from '@/components/ui'
 import { api } from '@/lib/api/client'
+import type { SessionPayload } from '@/lib/auth/session'
 import { cn } from '@/lib/utils'
 
 import { NAV_ITEMS, activeHref } from './nav'
-
-import type { SessionPayload } from '@/lib/auth/session'
 
 export function Sidebar({
   session,

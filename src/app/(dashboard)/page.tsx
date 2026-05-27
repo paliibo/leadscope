@@ -2,13 +2,13 @@
 
 import { useState } from 'react'
 
-import { Segmented } from '@/components/ui'
 import { ActivityCard } from '@/components/overview/activity-card'
 import { AttentionCard } from '@/components/overview/attention-card'
 import { FunnelCard } from '@/components/overview/funnel-card'
 import { KpiRow } from '@/components/overview/kpi-row'
 import { RevenueCard } from '@/components/overview/revenue-card'
 import { TopPerformersCard } from '@/components/overview/top-performers-card'
+import { Segmented } from '@/components/ui'
 
 const RANGES = [
   { value: '7', label: '7d' },

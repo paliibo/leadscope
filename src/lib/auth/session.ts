@@ -1,8 +1,7 @@
 import { SignJWT, jwtVerify } from 'jose'
 
-import { env } from '@/lib/env'
-
 import type { RepRole } from '@/db/schema'
+import { env } from '@/lib/env'
 
 export const SESSION_COOKIE = 'leadscope_session'
 export const SESSION_MAX_AGE_SECONDS = 60 * 60 * 24 * 7

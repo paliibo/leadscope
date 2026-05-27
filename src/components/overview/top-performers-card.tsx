@@ -5,11 +5,10 @@ import { ArrowDown, ArrowUp, Minus } from 'lucide-react'
 import Link from 'next/link'
 
 import { Avatar, Card, CardHeader, Progress, Skeleton } from '@/components/ui'
+import type { LeaderboardResult } from '@/db/queries/leaderboard'
 import { api, qs } from '@/lib/api/client'
 import { formatCompactMoney } from '@/lib/money'
 import { cn } from '@/lib/utils'
-
-import type { LeaderboardResult } from '@/db/queries/leaderboard'
 
 export function TopPerformersCard({ days }: { days: number }) {
   const { data, isPending } = useQuery({

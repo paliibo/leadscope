@@ -17,14 +17,13 @@ import { useMemo, useState } from 'react'
 import { toast } from 'sonner'
 
 import { Skeleton } from '@/components/ui'
-import { api } from '@/lib/api/client'
+import type { LeadWithRelations } from '@/db/queries/leads'
+import type { LeadStage } from '@/db/schema'
 import { STAGE_LABELS } from '@/lib/analytics/funnel'
+import { api } from '@/lib/api/client'
 
 import { Column } from './column'
 import { LeadCardBody } from './lead-card'
-
-import type { LeadWithRelations } from '@/db/queries/leads'
-import type { LeadStage } from '@/db/schema'
 
 const COLUMNS: LeadStage[] = [
   'new',

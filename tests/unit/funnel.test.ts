@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
+import type { LeadStage } from '@/db/schema'
 import {
   biggestLeak,
   buildFunnel,
@@ -7,8 +8,6 @@ import {
   stageIndex,
   winRate,
 } from '@/lib/analytics/funnel'
-
-import type { LeadStage } from '@/db/schema'
 
 describe('stageIndex / funnelIndex', () => {
   it('orders the pipeline', () => {

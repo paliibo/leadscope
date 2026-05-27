@@ -5,12 +5,11 @@ import { X } from 'lucide-react'
 import { useEffect } from 'react'
 
 import { Avatar, Button, Progress, Skeleton, StagePill } from '@/components/ui'
-import { api, qs } from '@/lib/api/client'
-import { scoreLead } from '@/lib/analytics/scoring'
-import { formatMoney } from '@/lib/money'
-
 import type { ActivityFeedItem } from '@/db/queries/activities'
 import type { LeadWithRelations } from '@/db/queries/leads'
+import { scoreLead } from '@/lib/analytics/scoring'
+import { api, qs } from '@/lib/api/client'
+import { formatMoney } from '@/lib/money'
 
 const DAY = 86_400_000
 

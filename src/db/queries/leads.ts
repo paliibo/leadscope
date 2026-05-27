@@ -2,7 +2,6 @@ import { and, asc, count, desc, eq, gte, inArray, like, lte, or, sql } from 'dri
 
 import { db } from '@/db'
 import { accounts, activities, leads, reps, type Lead, type LeadStage } from '@/db/schema'
-
 import type { LeadListQuery, UpdateLeadInput } from '@/lib/validation/leads'
 
 export interface LeadWithRelations extends Lead {

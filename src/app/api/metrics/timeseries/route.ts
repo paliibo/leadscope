@@ -1,9 +1,9 @@
 import { getTimeseries } from '@/db/queries/metrics'
+import { extendSeries } from '@/lib/analytics/forecast'
 import { handler, invalid, ok } from '@/lib/api/respond'
 import { canViewAllReps, requireSession } from '@/lib/auth'
-import { extendSeries } from '@/lib/analytics/forecast'
-import { parseSearchParams } from '@/lib/validation/leads'
 import { rangeSchema, trailingWindow } from '@/lib/validation/common'
+import { parseSearchParams } from '@/lib/validation/leads'
 
 export const runtime = 'nodejs'
 export const dynamic = 'force-dynamic'

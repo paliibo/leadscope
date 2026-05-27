@@ -1,3 +1,4 @@
+import { migrate } from 'drizzle-orm/libsql/migrator'
 /**
  * Applies every pending SQL migration in ./drizzle.
  *
@@ -7,8 +8,6 @@
  */
 import { mkdirSync } from 'node:fs'
 import { dirname } from 'node:path'
-
-import { migrate } from 'drizzle-orm/libsql/migrator'
 
 import { client, db } from '../src/db'
 import { env } from '../src/lib/env'

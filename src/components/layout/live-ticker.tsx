@@ -1,7 +1,6 @@
 'use client'
 
 import { AnimatePresence, motion } from 'framer-motion'
-import { useEffect, useState } from 'react'
 import {
   ArrowRight,
   CalendarCheck,
@@ -12,15 +11,15 @@ import {
   StickyNote,
   XCircle,
 } from 'lucide-react'
+import type { LucideIcon } from 'lucide-react'
+import { useEffect, useState } from 'react'
 
 import { Avatar } from '@/components/ui'
+import type { LeadscopeEvent } from '@/lib/events/types'
 import { formatCompactMoney } from '@/lib/money'
 import { cn } from '@/lib/utils'
 
 import { useLive } from '../providers/live-provider'
-
-import type { LeadscopeEvent } from '@/lib/events/types'
-import type { LucideIcon } from 'lucide-react'
 
 function iconFor(event: LeadscopeEvent): { Icon: LucideIcon; tone: string } {
   switch (event.type) {

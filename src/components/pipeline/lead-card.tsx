@@ -5,10 +5,9 @@ import { CSS } from '@dnd-kit/utilities'
 import { Building2, Clock, Flame } from 'lucide-react'
 
 import { Avatar } from '@/components/ui'
+import type { LeadWithRelations } from '@/db/queries/leads'
 import { formatCompactMoney } from '@/lib/money'
 import { cn } from '@/lib/utils'
-
-import type { LeadWithRelations } from '@/db/queries/leads'
 
 const DAY = 86_400_000
 

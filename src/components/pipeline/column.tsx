@@ -5,14 +5,13 @@ import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable'
 import { useState } from 'react'
 
 import { Button } from '@/components/ui'
+import type { LeadWithRelations } from '@/db/queries/leads'
+import type { LeadStage } from '@/db/schema'
 import { STAGE_LABELS } from '@/lib/analytics/funnel'
 import { formatCompactMoney, formatCount } from '@/lib/money'
 import { cn, sumBy } from '@/lib/utils'
 
 import { SortableLeadCard } from './lead-card'
-
-import type { LeadWithRelations } from '@/db/queries/leads'
-import type { LeadStage } from '@/db/schema'
 
 /** Cards rendered before the "show more" cut. A busy column can hold hundreds. */
 const PAGE = 25

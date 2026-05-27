@@ -17,9 +17,9 @@ import {
   reps,
   teams,
 } from '../src/db/schema'
+import { hashPassword } from '../src/lib/auth/password'
 import { generateDataset } from '../src/lib/demo/generate'
 import { env } from '../src/lib/env'
-import { hashPassword } from '../src/lib/auth/password'
 
 /** libSQL binds one variable per column, so keep batches well under the 999 limit. */
 const BATCH_SIZE = 120

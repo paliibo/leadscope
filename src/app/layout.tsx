@@ -1,9 +1,8 @@
+import type { Metadata, Viewport } from 'next'
 import { Toaster } from 'sonner'
 
 import { QueryProvider } from '@/components/providers/query-provider'
 import { ThemeProvider } from '@/components/providers/theme-provider'
-
-import type { Metadata, Viewport } from 'next'
 
 import './globals.css'
 

@@ -2,13 +2,12 @@
 
 import { useQueryClient } from '@tanstack/react-query'
 import { createContext, useCallback, useContext, useEffect, useRef } from 'react'
+import type { ReactNode } from 'react'
 import { toast } from 'sonner'
 
 import { useLiveStream, type LiveStream } from '@/hooks/use-live-stream'
-import { formatCompactMoney } from '@/lib/money'
-
 import type { LeadscopeEvent } from '@/lib/events/types'
-import type { ReactNode } from 'react'
+import { formatCompactMoney } from '@/lib/money'
 
 const LiveContext = createContext<LiveStream | null>(null)
 

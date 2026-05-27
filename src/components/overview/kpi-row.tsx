@@ -4,11 +4,10 @@ import { useQuery } from '@tanstack/react-query'
 import { CircleDollarSign, Percent, Target, Users } from 'lucide-react'
 
 import { Card, Skeleton, StatTile } from '@/components/ui'
-import { api, qs } from '@/lib/api/client'
-import { formatCompactMoney, formatCount, formatPercent } from '@/lib/money'
-
 import type { OverviewMetrics } from '@/db/queries/metrics'
 import type { TimeseriesResult } from '@/db/queries/metrics'
+import { api, qs } from '@/lib/api/client'
+import { formatCompactMoney, formatCount, formatPercent } from '@/lib/money'
 
 export function KpiRow({ days }: { days: number }) {
   const metrics = useQuery({

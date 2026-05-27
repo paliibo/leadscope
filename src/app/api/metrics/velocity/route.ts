@@ -1,13 +1,13 @@
 import { and, gte, inArray, lte } from 'drizzle-orm'
 
 import { db } from '@/db'
-import { leads } from '@/db/schema'
 import { getStageTransitions } from '@/db/queries/activities'
+import { leads } from '@/db/schema'
 import { salesCycle, stageDwellTimes, stalledLeads } from '@/lib/analytics/velocity'
 import { handler, invalid, ok } from '@/lib/api/respond'
 import { requireSession } from '@/lib/auth'
-import { parseSearchParams } from '@/lib/validation/leads'
 import { rangeSchema, trailingWindow } from '@/lib/validation/common'
+import { parseSearchParams } from '@/lib/validation/leads'
 
 export const runtime = 'nodejs'
 export const dynamic = 'force-dynamic'

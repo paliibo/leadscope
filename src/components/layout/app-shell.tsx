@@ -3,16 +3,15 @@
 import { X } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
+import type { ReactNode } from 'react'
 
 import { Button } from '@/components/ui'
+import type { SessionPayload } from '@/lib/auth/session'
 
 import { CommandPalette } from './command-palette'
 import { NAV_ITEMS } from './nav'
 import { Sidebar } from './sidebar'
 import { Topbar } from './topbar'
-
-import type { SessionPayload } from '@/lib/auth/session'
-import type { ReactNode } from 'react'
 
 /**
  * Two-column app shell. The sidebar is fixed on desktop and a dismissible

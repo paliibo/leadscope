@@ -14,7 +14,6 @@ import { env } from '@/lib/env'
 import { Random } from '@/lib/rng'
 
 import { bus } from './bus'
-
 import type { PulseSnapshot } from './types'
 
 const TICK_MS = 2_600

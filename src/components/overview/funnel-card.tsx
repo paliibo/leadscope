@@ -4,12 +4,11 @@ import { useQuery } from '@tanstack/react-query'
 import { AlertTriangle } from 'lucide-react'
 
 import { Card, CardHeader, Skeleton } from '@/components/ui'
+import type { FunnelRow } from '@/lib/analytics/funnel'
+import type { WinRate } from '@/lib/analytics/funnel'
 import { api, qs } from '@/lib/api/client'
 import { formatCount, formatPercent } from '@/lib/money'
 import { cn } from '@/lib/utils'
-
-import type { FunnelRow } from '@/lib/analytics/funnel'
-import type { WinRate } from '@/lib/analytics/funnel'
 
 interface FunnelResponse {
   rows: FunnelRow[]

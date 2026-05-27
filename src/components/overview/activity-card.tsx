@@ -1,9 +1,9 @@
 'use client'
 
-import { Card, CardHeader } from '@/components/ui'
-import { LiveTicker } from '@/components/layout/live-ticker'
 import { ConnectionBadge } from '@/components/layout/connection-badge'
+import { LiveTicker } from '@/components/layout/live-ticker'
 import { useLive } from '@/components/providers/live-provider'
+import { Card, CardHeader } from '@/components/ui'
 import { formatCompactMoney, formatCount } from '@/lib/money'
 
 export function ActivityCard() {

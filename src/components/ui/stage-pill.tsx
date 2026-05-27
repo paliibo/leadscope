@@ -1,8 +1,7 @@
-import { Badge } from './badge'
-
+import type { LeadStage } from '@/db/schema'
 import { STAGE_LABELS } from '@/lib/analytics/funnel'
 
-import type { LeadStage } from '@/db/schema'
+import { Badge } from './badge'
 
 const TONES = {
   new: 'neutral',

@@ -2,7 +2,6 @@ import { handler } from '@/lib/api/respond'
 import { requireSession } from '@/lib/auth'
 import { bus } from '@/lib/events/bus'
 import { readPulse, simulator } from '@/lib/events/simulator'
-
 import type { Envelope } from '@/lib/events/types'
 
 export const runtime = 'nodejs'

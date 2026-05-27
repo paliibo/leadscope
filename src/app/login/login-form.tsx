@@ -1,7 +1,6 @@
 'use client'
 
 import { Loader2, LockKeyhole, Mail } from 'lucide-react'
-import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 
 import { Button, Card, Input } from '@/components/ui'
@@ -10,7 +9,6 @@ import { ApiRequestError, api } from '@/lib/api/client'
 const DEMO = { email: 'demo@leadscope.app', password: 'demo1234' }
 
 export function LoginForm({ next }: { next?: string }) {
-  const router = useRouter()
   const [email, setEmail] = useState(DEMO.email)
   const [password, setPassword] = useState(DEMO.password)
   const [error, setError] = useState<string | null>(null)
@@ -23,9 +21,16 @@ export function LoginForm({ next }: { next?: string }) {
 
     try {
       await api.post('/api/auth/login', { email, password })
-      // replace(), not push(): the login page should not be in the back stack.
-      router.replace(next && next.startsWith('/') ? next : '/')
-      router.refresh()
+
+      // A full document load rather than router.replace(): the session cookie
+      // changes what every server component on the next route renders, and a
+      // client-side transition races the router cache. `replace` also keeps the
+      // login screen out of the back stack.
+      //
+      // Only same-origin absolute paths are honoured, so a crafted
+      // `?next=//evil.example` cannot turn this into an open redirect.
+      const target = next && /^\/(?!\/)/.test(next) ? next : '/'
+      window.location.replace(target)
     } catch (cause) {
       setError(
         cause instanceof ApiRequestError
