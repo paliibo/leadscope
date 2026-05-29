@@ -1,5 +1,11 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  /**
+   * The e2e run builds and starts a production server. Pointing it at its own
+   * output directory means it can't clobber the `.next` a running `pnpm dev` is
+   * serving from — otherwise the two silently corrupt each other's chunks.
+   */
+  distDir: process.env.NEXT_DIST_DIR || '.next',
   reactStrictMode: true,
   poweredByHeader: false,
   images: {
