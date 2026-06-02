@@ -5,6 +5,7 @@ import { usePathname } from 'next/navigation'
 
 import { Button } from '@/components/ui'
 
+import { useCommandPalette } from './command-palette'
 import { ConnectionBadge } from './connection-badge'
 import { NAV_ITEMS, activeHref } from './nav'
 import { ThemeToggle } from './theme-toggle'
@@ -12,13 +13,7 @@ import { ThemeToggle } from './theme-toggle'
 export function Topbar({ onOpenNav }: { onOpenNav: () => void }) {
   const pathname = usePathname()
   const current = NAV_ITEMS.find((item) => item.href === activeHref(pathname))
-
-  function openPalette() {
-    // Reuse the palette's own shortcut handler rather than lifting its state.
-    document.dispatchEvent(
-      new KeyboardEvent('keydown', { key: 'k', metaKey: true, bubbles: true }),
-    )
-  }
+  const palette = useCommandPalette()
 
   return (
     <header className="sticky top-0 z-20 flex items-center gap-3 border-b border-line bg-canvas/85 px-4 py-3 backdrop-blur lg:px-8">
@@ -43,7 +38,7 @@ export function Topbar({ onOpenNav }: { onOpenNav: () => void }) {
 
       <button
         type="button"
-        onClick={openPalette}
+        onClick={palette.open}
         className="hidden items-center gap-2 rounded-pill border border-line bg-surface px-3 py-1.5 text-sm text-ink-subtle transition-colors hover:text-ink md:flex"
       >
         <Search className="h-3.5 w-3.5" aria-hidden />

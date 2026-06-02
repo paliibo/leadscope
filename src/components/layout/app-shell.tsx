@@ -71,37 +71,37 @@ export function AppShell({
   }, [router])
 
   return (
-    <div className="flex min-h-dvh bg-canvas">
-      <Sidebar session={session} className="hidden lg:flex" />
+    <CommandPalette>
+      <div className="flex min-h-dvh bg-canvas">
+        <Sidebar session={session} className="hidden lg:flex" />
 
-      {navOpen ? (
-        <div className="fixed inset-0 z-40 lg:hidden">
-          <div
-            className="absolute inset-0 bg-ink/40"
-            onClick={() => setNavOpen(false)}
-            aria-hidden
-          />
-          <div className="absolute inset-y-0 left-0 animate-fade-up">
-            <Sidebar session={session} onNavigate={() => setNavOpen(false)} />
+        {navOpen ? (
+          <div className="fixed inset-0 z-40 lg:hidden">
+            <div
+              className="absolute inset-0 bg-ink/40"
+              onClick={() => setNavOpen(false)}
+              aria-hidden
+            />
+            <div className="absolute inset-y-0 left-0 animate-fade-up">
+              <Sidebar session={session} onNavigate={() => setNavOpen(false)} />
+            </div>
+            <Button
+              variant="secondary"
+              size="icon"
+              aria-label="Close navigation"
+              onClick={() => setNavOpen(false)}
+              className="absolute right-4 top-4"
+            >
+              <X className="h-4 w-4" aria-hidden />
+            </Button>
           </div>
-          <Button
-            variant="secondary"
-            size="icon"
-            aria-label="Close navigation"
-            onClick={() => setNavOpen(false)}
-            className="absolute right-4 top-4"
-          >
-            <X className="h-4 w-4" aria-hidden />
-          </Button>
+        ) : null}
+
+        <div className="flex min-w-0 flex-1 flex-col">
+          <Topbar onOpenNav={() => setNavOpen(true)} />
+          <main className="flex-1 px-4 py-6 lg:px-8">{children}</main>
         </div>
-      ) : null}
-
-      <div className="flex min-w-0 flex-1 flex-col">
-        <Topbar onOpenNav={() => setNavOpen(true)} />
-        <main className="flex-1 px-4 py-6 lg:px-8">{children}</main>
       </div>
-
-      <CommandPalette />
-    </div>
+    </CommandPalette>
   )
 }
