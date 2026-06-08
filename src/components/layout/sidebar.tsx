@@ -2,7 +2,7 @@
 
 import { LogOut } from 'lucide-react'
 import Link from 'next/link'
-import { usePathname, useRouter } from 'next/navigation'
+import { usePathname } from 'next/navigation'
 
 import { Avatar } from '@/components/ui'
 import { api } from '@/lib/api/client'
@@ -21,13 +21,14 @@ export function Sidebar({
   className?: string
 }) {
   const pathname = usePathname()
-  const router = useRouter()
   const active = activeHref(pathname)
 
   async function signOut() {
     await api.post('/api/auth/logout')
-    router.replace('/login')
-    router.refresh()
+    // Full document load for the same reason as sign-in: the session cookie
+    // changes what every server component renders, and a client transition
+    // races the router cache.
+    window.location.replace('/login')
   }
 
   return (
@@ -69,6 +70,9 @@ export function Sidebar({
                 <Icon className="h-4 w-4 shrink-0" aria-hidden />
                 <span className="flex-1">{item.label}</span>
                 <kbd
+                  // Decorative: without this the link's accessible name becomes
+                  // "Leads g l", which is what a screen reader would announce.
+                  aria-hidden
                   className={cn(
                     'hidden font-mono text-2xs text-ink-subtle lg:block',
                     isActive ? 'opacity-100' : 'opacity-0 group-hover:opacity-100',
