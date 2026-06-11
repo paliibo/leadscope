@@ -86,10 +86,20 @@ export function SortableLeadCard({ lead }: { lead: LeadWithRelations }) {
       // The original stays mounted while dragging so the column keeps its
       // height; the DragOverlay renders the copy that follows the cursor.
       className={cn('touch-none', isDragging && 'opacity-40')}
-      {...attributes}
-      {...listeners}
     >
-      <LeadCardBody lead={lead} />
+      {/*
+        dnd-kit's `attributes` include role="button", which would override the
+        li's implicit listitem role and take the column out of the accessibility
+        tree as a list. Spreading them on an inner element keeps both: the
+        column stays a list, and each card is still a keyboard-operable handle.
+      */}
+      <div
+        {...attributes}
+        {...listeners}
+        className="cursor-grab rounded-xl outline-none active:cursor-grabbing"
+      >
+        <LeadCardBody lead={lead} />
+      </div>
     </li>
   )
 }
