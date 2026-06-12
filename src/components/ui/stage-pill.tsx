@@ -14,5 +14,11 @@ const TONES = {
 } as const satisfies Record<LeadStage, 'neutral' | 'brand' | 'violet' | 'warning' | 'positive' | 'negative'>
 
 export function StagePill({ stage }: { stage: LeadStage }) {
-  return <Badge tone={TONES[stage]}>{STAGE_LABELS[stage]}</Badge>
+  // data-stage gives tests (and any future styling hook) a stable handle that
+  // does not depend on which table column the pill happens to sit in.
+  return (
+    <Badge tone={TONES[stage]} data-stage={stage}>
+      {STAGE_LABELS[stage]}
+    </Badge>
+  )
 }
