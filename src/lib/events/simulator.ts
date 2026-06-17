@@ -16,7 +16,14 @@ import { Random } from '@/lib/rng'
 import { bus } from './bus'
 import type { PulseSnapshot } from './types'
 
-const TICK_MS = 2_600
+/**
+ * Pacing. A real 14-rep team logs a few hundred touches and closes one or two
+ * deals a day. The feed needs to look alive, so touches run far faster than
+ * life, but closes stay rare on purpose: at the original 8% of ticks the demo
+ * closed ~120 deals an hour and "won today" swamped every other day on the
+ * chart within minutes of leaving a tab open.
+ */
+const TICK_MS = 3_500
 const PULSE_MS = 5_000
 /** Keep running briefly after the last viewer leaves so a page reload is seamless. */
 const IDLE_SHUTDOWN_MS = 30_000
@@ -114,11 +121,10 @@ class PipelineSimulator {
     this.busy = true
     try {
       const action = this.rng.weighted([
-        ['touch', 52],
-        ['advance', 26],
-        ['create', 14],
-        ['close', 8],
-      ] as ReadonlyArray<readonly ['touch' | 'advance' | 'create' | 'close', number]>)
+        ['touch', 76],
+        ['advance', 17],
+        ['create', 7],
+      ] as ReadonlyArray<readonly ['touch' | 'advance' | 'create', number]>)
 
       if (action === 'create') await this.createLead()
       else await this.actOnOpenLead(action)
@@ -152,7 +158,7 @@ class PipelineSimulator {
     return row ?? null
   }
 
-  private async actOnOpenLead(action: 'touch' | 'advance' | 'close'): Promise<void> {
+  private async actOnOpenLead(action: 'touch' | 'advance'): Promise<void> {
     const lead = await this.pickOpenLead()
     if (!lead) return
 
@@ -196,8 +202,11 @@ class PipelineSimulator {
       return
     }
 
-    if (action === 'close' || lead.stage === 'negotiation') {
-      const won = this.rng.chance(lead.stage === 'negotiation' ? 0.55 : 0.3)
+    // Deals only close by advancing out of negotiation — there is no separate
+    // "close a random deal" action. That ties the win rate to how many deals
+    // actually reach the last stage, the way it works in life.
+    if (lead.stage === 'negotiation') {
+      const won = this.rng.chance(0.55)
       const stage: LeadStage = won ? 'won' : 'lost'
       const summary = won
         ? `${lead.accountName} signed`
