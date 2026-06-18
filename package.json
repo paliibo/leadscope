@@ -2,7 +2,7 @@
   "name": "leadscope",
   "version": "1.0.0",
   "private": true,
-  "description": "Real-time sales pipeline intelligence — live lead stream, drag-and-drop pipeline, forecasting and team leaderboards.",
+  "description": "Real-time sales pipeline intelligence \u2014 live lead stream, drag-and-drop pipeline, forecasting and team leaderboards.",
   "engines": {
     "node": ">=20.11"
   },
@@ -11,7 +11,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "typecheck": "tsc --noEmit",
+    "typecheck": "tsc --noEmit && tsc --noEmit -p e2e/tsconfig.json",
     "format": "prettier --write \"src/**/*.{ts,tsx,css}\"",
     "format:check": "prettier --check \"src/**/*.{ts,tsx,css}\"",
     "db:generate": "drizzle-kit generate",
