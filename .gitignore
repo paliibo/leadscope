@@ -49,3 +49,4 @@ yarn-error.log*
 .idea/
 .vscode/*
 !.vscode/extensions.json
+/.next-e2e/
