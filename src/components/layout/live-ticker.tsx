@@ -71,21 +71,23 @@ export function LiveTicker({ limit = 12 }: { limit?: number }) {
     return () => clearInterval(timer)
   }, [])
 
-  if (visible.length === 0) {
-    return (
-      <ul className="flex flex-col gap-3" aria-live="polite">
-        {Array.from({ length: 5 }, (_, index) => (
-          <li key={index} className="flex items-center gap-3">
-            <span className="skeleton h-8 w-8 rounded-full" />
-            <span className="skeleton h-4 flex-1" />
-          </li>
-        ))}
-      </ul>
-    )
-  }
-
+  // One list in both states, keeping the same label and live region. Swapping
+  // the container out when the first event lands would mean assistive tech only
+  // starts observing the region after it has already changed.
   return (
-    <ul className="flex flex-col" aria-live="polite" aria-label="Live pipeline activity">
+    <ul
+      className="flex flex-col"
+      aria-live="polite"
+      aria-label="Live pipeline activity"
+    >
+      {visible.length === 0
+        ? Array.from({ length: 5 }, (_, index) => (
+            <li key={`skeleton-${index}`} className="flex items-center gap-3 py-2.5">
+              <span className="skeleton h-8 w-8 rounded-full" />
+              <span className="skeleton h-4 flex-1" />
+            </li>
+          ))
+        : null}
       <AnimatePresence initial={false}>
         {visible.map((event) => {
           const { Icon, tone } = iconFor(event)
@@ -102,7 +104,10 @@ export function LiveTicker({ limit = 12 }: { limit?: number }) {
               <Avatar name={event.actor.name} src={event.actor.avatarUrl} size="sm" />
               <div className="min-w-0 flex-1">
                 <p className="truncate text-sm text-ink">
-                  <Icon className={cn('mr-1.5 inline h-3.5 w-3.5 align-[-2px]', tone)} aria-hidden />
+                  <Icon
+                    className={cn('mr-1.5 inline h-3.5 w-3.5 align-[-2px]', tone)}
+                    aria-hidden
+                  />
                   {event.summary}
                 </p>
                 <p className="mt-0.5 truncate text-2xs text-ink-subtle">
