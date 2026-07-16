@@ -1,0 +1,18 @@
+services:
+  leadscope:
+    build:
+      context: .
+    ports:
+      - '3000:3000'
+    environment:
+      DATABASE_URL: file:/app/data/leadscope.db
+      # Override before exposing this anywhere: openssl rand -base64 32
+      AUTH_SECRET: ${AUTH_SECRET:-change-me-before-deploying-anywhere-real}
+      SEED: ${SEED:-20260101}
+      LIVE_SIMULATOR: ${LIVE_SIMULATOR:-1}
+    volumes:
+      - leadscope-data:/app/data
+    restart: unless-stopped
+
+volumes:
+  leadscope-data:

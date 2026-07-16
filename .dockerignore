@@ -1,0 +1,16 @@
+node_modules
+.next
+.next-e2e
+out
+coverage
+test-results
+playwright-report
+data
+.git
+.github
+.idea
+.vscode
+*.md
+!README.md
+.env
+.env.*

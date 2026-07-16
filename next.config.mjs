@@ -8,6 +8,9 @@ const nextConfig = {
   distDir: process.env.NEXT_DIST_DIR || '.next',
   reactStrictMode: true,
   poweredByHeader: false,
+  // Traced standalone output: the Docker image ships only the modules actually
+  // reachable from the server, which is roughly a tenth of node_modules.
+  output: process.env.NEXT_OUTPUT_STANDALONE === '1' ? 'standalone' : undefined,
   images: {
     remotePatterns: [
       { protocol: 'https', hostname: 'i.pravatar.cc' },
