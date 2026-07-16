@@ -8,7 +8,13 @@ import { SESSION_COOKIE, readSessionToken } from '@/lib/auth/session'
  *
  * Runs on the edge runtime, so it only uses jose (Web Crypto) — no node APIs.
  */
-const PUBLIC_PATHS = new Set(['/login', '/api/auth/login', '/api/auth/session'])
+const PUBLIC_PATHS = new Set([
+  '/login',
+  '/api/auth/login',
+  '/api/auth/session',
+  // Orchestrators poll this without credentials.
+  '/api/health',
+])
 
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl
