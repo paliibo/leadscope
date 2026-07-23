@@ -42,10 +42,18 @@ export function ChannelCard({ days }: { days: number }) {
           <table className="w-full text-sm">
             <thead>
               <tr className="text-left text-2xs uppercase tracking-wide text-ink-subtle">
-                <th scope="col" className="pb-2 font-medium">Channel</th>
-                <th scope="col" className="pb-2 text-right font-medium">Leads</th>
-                <th scope="col" className="pb-2 text-right font-medium">Win rate</th>
-                <th scope="col" className="pb-2 text-right font-medium">Revenue</th>
+                <th scope="col" className="pb-2 font-medium">
+                  Channel
+                </th>
+                <th scope="col" className="pb-2 text-right font-medium">
+                  Leads
+                </th>
+                <th scope="col" className="pb-2 text-right font-medium">
+                  Win rate
+                </th>
+                <th scope="col" className="pb-2 text-right font-medium">
+                  Revenue
+                </th>
               </tr>
             </thead>
             <tbody>
@@ -90,26 +98,24 @@ export function IndustryCard() {
     <Card>
       <CardHeader title="Open pipeline by industry" subtitle="Current, all stages" />
       <div className="flex flex-col gap-3 p-5">
-        {isPending || !data ? (
-          Array.from({ length: 6 }, (_, index) => (
-            <Skeleton key={index} className="h-8 w-full" />
-          ))
-        ) : (
-          data.industries.map((row) => (
-            <div key={row.industry}>
-              <div className="mb-1 flex justify-between text-sm">
-                <span className="text-ink">{row.industry}</span>
-                <span className="tnum text-ink-muted">
-                  {formatCompactMoney(row.pipelineCents)}
-                  <span className="ml-2 text-2xs text-ink-subtle">
-                    {formatCount(row.leads)} deals
+        {isPending || !data
+          ? Array.from({ length: 6 }, (_, index) => (
+              <Skeleton key={index} className="h-8 w-full" />
+            ))
+          : data.industries.map((row) => (
+              <div key={row.industry}>
+                <div className="mb-1 flex justify-between text-sm">
+                  <span className="text-ink">{row.industry}</span>
+                  <span className="tnum text-ink-muted">
+                    {formatCompactMoney(row.pipelineCents)}
+                    <span className="ml-2 text-2xs text-ink-subtle">
+                      {formatCount(row.leads)} deals
+                    </span>
                   </span>
-                </span>
+                </div>
+                <Progress value={total > 0 ? row.pipelineCents / total : 0} />
               </div>
-              <Progress value={total > 0 ? row.pipelineCents / total : 0} />
-            </div>
-          ))
-        )}
+            ))}
       </div>
     </Card>
   )

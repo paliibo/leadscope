@@ -1,10 +1,4 @@
-import {
-  BarChart3,
-  KanbanSquare,
-  LayoutDashboard,
-  Trophy,
-  Users,
-} from 'lucide-react'
+import { BarChart3, KanbanSquare, LayoutDashboard, Trophy, Users } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
 
 export interface NavItem {
@@ -57,7 +51,8 @@ export const NAV_ITEMS: readonly NavItem[] = [
 /** Longest matching nav href, so /leads/123 still highlights /leads. */
 export function activeHref(pathname: string): string {
   const matches = NAV_ITEMS.filter(
-    (item) => pathname === item.href || (item.href !== '/' && pathname.startsWith(item.href)),
+    (item) =>
+      pathname === item.href || (item.href !== '/' && pathname.startsWith(item.href)),
   )
   return matches.sort((a, b) => b.href.length - a.href.length)[0]?.href ?? '/'
 }

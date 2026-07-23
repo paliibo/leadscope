@@ -15,12 +15,20 @@ describe('stageDwellTimes', () => {
     const transitions: StageTransition[] = [
       { leadId: 'a', fromStage: null, toStage: 'new', createdAt: T0 },
       { leadId: 'a', fromStage: 'new', toStage: 'contacted', createdAt: T0 + 2 * DAY },
-      { leadId: 'a', fromStage: 'contacted', toStage: 'qualified', createdAt: T0 + 6 * DAY },
+      {
+        leadId: 'a',
+        fromStage: 'contacted',
+        toStage: 'qualified',
+        createdAt: T0 + 6 * DAY,
+      },
     ]
     const dwell = stageDwellTimes(transitions)
 
     expect(dwell.find((row) => row.stage === 'new')?.averageDays).toBeCloseTo(2, 6)
-    expect(dwell.find((row) => row.stage === 'contacted')?.averageDays).toBeCloseTo(4, 6)
+    expect(dwell.find((row) => row.stage === 'contacted')?.averageDays).toBeCloseTo(
+      4,
+      6,
+    )
   })
 
   it('does not sample a stage a lead has not left yet', () => {
@@ -38,7 +46,12 @@ describe('stageDwellTimes', () => {
       const id = `lead-${index}`
       transitions.push(
         { leadId: id, fromStage: null, toStage: 'new', createdAt: T0 },
-        { leadId: id, fromStage: 'new', toStage: 'contacted', createdAt: T0 + days * DAY },
+        {
+          leadId: id,
+          fromStage: 'new',
+          toStage: 'contacted',
+          createdAt: T0 + days * DAY,
+        },
       )
     }
     const row = stageDwellTimes(transitions).find((entry) => entry.stage === 'new')

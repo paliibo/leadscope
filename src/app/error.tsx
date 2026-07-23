@@ -29,8 +29,8 @@ export default function GlobalError({
         </span>
         <h1 className="mt-4 text-lg font-semibold text-ink">Something went wrong</h1>
         <p className="mt-2 text-sm text-ink-muted">
-          The page hit an error it could not recover from. Retrying usually works;
-          if it does not, the server log has the detail.
+          The page hit an error it could not recover from. Retrying usually works; if it
+          does not, the server log has the detail.
         </p>
         {error.digest ? (
           <p className="mt-3 font-mono text-2xs text-ink-subtle">

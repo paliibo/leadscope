@@ -2,7 +2,12 @@ import { and, count, eq, gte, lt, lte, sum } from 'drizzle-orm'
 
 import { db } from '@/db'
 import { activities, goals, leads, reps, teams } from '@/db/schema'
-import { rankReps, type LeaderboardMetric, type RankableRep, type RankedRep } from '@/lib/analytics/leaderboard'
+import {
+  rankReps,
+  type LeaderboardMetric,
+  type RankableRep,
+  type RankedRep,
+} from '@/lib/analytics/leaderboard'
 
 async function aggregate(from: Date, to: Date): Promise<Map<string, RankableRep>> {
   const [roster, wonRows, leadRows, touchRows] = await Promise.all([
@@ -25,7 +30,9 @@ async function aggregate(from: Date, to: Date): Promise<Map<string, RankableRep>
         revenue: sum(leads.valueCents),
       })
       .from(leads)
-      .where(and(eq(leads.stage, 'won'), gte(leads.closedAt, from), lt(leads.closedAt, to)))
+      .where(
+        and(eq(leads.stage, 'won'), gte(leads.closedAt, from), lt(leads.closedAt, to)),
+      )
       .groupBy(leads.ownerId),
     db
       .select({ ownerId: leads.ownerId, worked: count() })
@@ -99,7 +106,10 @@ export async function getLeaderboard(options: {
   ])
 
   const previousRanks = new Map(
-    rankReps([...previous.values()], options.metric).map((rep) => [rep.repId, rep.rank]),
+    rankReps([...previous.values()], options.metric).map((rep) => [
+      rep.repId,
+      rep.rank,
+    ]),
   )
 
   let rows = rankReps([...current.values()], options.metric, previousRanks)
@@ -117,7 +127,9 @@ export async function getLeaderboard(options: {
   return {
     metric: options.metric,
     rows: rows.slice(0, options.limit),
-    windowDays: Math.round((options.to.getTime() - options.from.getTime()) / 86_400_000),
+    windowDays: Math.round(
+      (options.to.getTime() - options.from.getTime()) / 86_400_000,
+    ),
   }
 }
 
@@ -151,7 +163,13 @@ export async function getQuotaProgress(period: string): Promise<QuotaProgress[]>
     db
       .select({ ownerId: leads.ownerId, revenue: sum(leads.valueCents) })
       .from(leads)
-      .where(and(eq(leads.stage, 'won'), gte(leads.closedAt, start), lte(leads.closedAt, end)))
+      .where(
+        and(
+          eq(leads.stage, 'won'),
+          gte(leads.closedAt, start),
+          lte(leads.closedAt, end),
+        ),
+      )
       .groupBy(leads.ownerId),
   ])
 

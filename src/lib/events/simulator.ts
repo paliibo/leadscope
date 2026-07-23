@@ -291,10 +291,29 @@ class PipelineSimulator {
       ['partner', 7],
     ] as ReadonlyArray<readonly [LeadSource, number]>)
 
-    const first = this.rng.pick(['Nadia', 'Rhys', 'Imani', 'Kofi', 'Lena', 'Tomas', 'Ada', 'Milo'])
-    const last = this.rng.pick(['Brandt', 'Okonkwo', 'Reyes', 'Lindholm', 'Sato', 'Moreau'])
+    const first = this.rng.pick([
+      'Nadia',
+      'Rhys',
+      'Imani',
+      'Kofi',
+      'Lena',
+      'Tomas',
+      'Ada',
+      'Milo',
+    ])
+    const last = this.rng.pick([
+      'Brandt',
+      'Okonkwo',
+      'Reyes',
+      'Lindholm',
+      'Sato',
+      'Moreau',
+    ])
     const name = `${first} ${last}`
-    const valueCents = Math.max(2_000_00, Math.round(this.rng.normal(16_000, 7_000)) * 100)
+    const valueCents = Math.max(
+      2_000_00,
+      Math.round(this.rng.normal(16_000, 7_000)) * 100,
+    )
 
     const { score } = scoreLead({
       source,

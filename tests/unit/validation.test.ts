@@ -1,6 +1,11 @@
 import { describe, expect, it } from 'vitest'
 
-import { leaderboardQuerySchema, loginSchema, rangeSchema, trailingWindow } from '@/lib/validation/common'
+import {
+  leaderboardQuerySchema,
+  loginSchema,
+  rangeSchema,
+  trailingWindow,
+} from '@/lib/validation/common'
 import {
   createLeadSchema,
   leadListQuerySchema,
@@ -11,7 +16,12 @@ import {
 describe('leadListQuerySchema', () => {
   it('applies sensible defaults', () => {
     const result = leadListQuerySchema.parse({})
-    expect(result).toMatchObject({ sort: 'updatedAt', dir: 'desc', page: 1, pageSize: 25 })
+    expect(result).toMatchObject({
+      sort: 'updatedAt',
+      dir: 'desc',
+      page: 1,
+      pageSize: 25,
+    })
   })
 
   it('splits comma-separated stages and sources', () => {
@@ -86,7 +96,10 @@ describe('parseSearchParams', () => {
   })
 
   it('drops empty values so they fall through to defaults', () => {
-    const result = parseSearchParams(leadListQuerySchema, new URLSearchParams('q=&page='))
+    const result = parseSearchParams(
+      leadListQuerySchema,
+      new URLSearchParams('q=&page='),
+    )
     expect(result.success).toBe(true)
     if (result.success) {
       expect(result.data.q).toBeUndefined()
@@ -95,7 +108,10 @@ describe('parseSearchParams', () => {
   })
 
   it('reports failure instead of throwing', () => {
-    const result = parseSearchParams(leadListQuerySchema, new URLSearchParams('page=-4'))
+    const result = parseSearchParams(
+      leadListQuerySchema,
+      new URLSearchParams('page=-4'),
+    )
     expect(result.success).toBe(false)
   })
 })
@@ -110,7 +126,10 @@ describe('rangeSchema and leaderboardQuerySchema', () => {
   })
 
   it('defaults the leaderboard to revenue', () => {
-    expect(leaderboardQuerySchema.parse({})).toMatchObject({ metric: 'revenue', limit: 10 })
+    expect(leaderboardQuerySchema.parse({})).toMatchObject({
+      metric: 'revenue',
+      limit: 10,
+    })
   })
 })
 

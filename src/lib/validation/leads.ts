@@ -9,7 +9,12 @@ export const sourceSchema = z.enum(LEAD_SOURCES)
 const csv = <T extends z.ZodTypeAny>(item: T) =>
   z
     .string()
-    .transform((value) => value.split(',').map((part) => part.trim()).filter(Boolean))
+    .transform((value) =>
+      value
+        .split(',')
+        .map((part) => part.trim())
+        .filter(Boolean),
+    )
     .pipe(z.array(item))
 
 export const leadListQuerySchema = z.object({

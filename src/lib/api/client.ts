@@ -46,8 +46,11 @@ async function request<T>(path: string, init?: RequestInit): Promise<T> {
   }
 
   if (!response.ok) {
-    const error = (payload as { error?: { message?: string; code?: string; fields?: Record<string, string[]> } })
-      ?.error
+    const error = (
+      payload as {
+        error?: { message?: string; code?: string; fields?: Record<string, string[]> }
+      }
+    )?.error
     throw new ApiRequestError(
       error?.message ?? response.statusText ?? 'Request failed',
       response.status,
@@ -70,7 +73,9 @@ export const api = {
 }
 
 /** Build a query string, dropping empty values so URLs stay readable. */
-export function qs(params: Record<string, string | number | boolean | undefined | null>) {
+export function qs(
+  params: Record<string, string | number | boolean | undefined | null>,
+) {
   const search = new URLSearchParams()
   for (const [key, value] of Object.entries(params)) {
     if (value === undefined || value === null || value === '') continue

@@ -40,7 +40,9 @@ export function ThemeToggle() {
             onClick={() => setTheme(option.value)}
             className={cn(
               'flex h-7 w-7 items-center justify-center rounded-full transition-colors',
-              active ? 'bg-surface text-ink shadow-card' : 'text-ink-subtle hover:text-ink',
+              active
+                ? 'bg-surface text-ink shadow-card'
+                : 'text-ink-subtle hover:text-ink',
             )}
           >
             <Icon className="h-3.5 w-3.5" aria-hidden />

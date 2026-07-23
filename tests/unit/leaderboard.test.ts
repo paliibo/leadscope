@@ -131,12 +131,20 @@ describe('longestStreak', () => {
 
   it('resets across a gap and keeps the longest run', () => {
     expect(
-      longestStreak(['2026-03-01', '2026-03-02', '2026-03-05', '2026-03-06', '2026-03-07']),
+      longestStreak([
+        '2026-03-01',
+        '2026-03-02',
+        '2026-03-05',
+        '2026-03-06',
+        '2026-03-07',
+      ]),
     ).toBe(3)
   })
 
   it('deduplicates and sorts its input', () => {
-    expect(longestStreak(['2026-03-03', '2026-03-01', '2026-03-02', '2026-03-02'])).toBe(3)
+    expect(
+      longestStreak(['2026-03-03', '2026-03-01', '2026-03-02', '2026-03-02']),
+    ).toBe(3)
   })
 
   it('handles month boundaries', () => {

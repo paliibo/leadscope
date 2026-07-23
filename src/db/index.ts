@@ -30,7 +30,10 @@ function createDbClient(): Client {
   // journal_mode cannot be changed from inside one.
   if (env.DATABASE_URL.startsWith('file:')) {
     void (async () => {
-      for (const pragma of ['PRAGMA journal_mode = WAL', 'PRAGMA busy_timeout = 5000']) {
+      for (const pragma of [
+        'PRAGMA journal_mode = WAL',
+        'PRAGMA busy_timeout = 5000',
+      ]) {
         try {
           await client.execute(pragma)
         } catch (error) {

@@ -18,7 +18,9 @@ export function KpiRow({ days }: { days: number }) {
   const series = useQuery({
     queryKey: ['metrics', 'timeseries', days, 'day'],
     queryFn: () =>
-      api.get<TimeseriesResult>(`/api/metrics/timeseries${qs({ days, granularity: 'day' })}`),
+      api.get<TimeseriesResult>(
+        `/api/metrics/timeseries${qs({ days, granularity: 'day' })}`,
+      ),
   })
 
   if (metrics.isPending || !metrics.data) {

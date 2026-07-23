@@ -31,7 +31,9 @@ export function ActivityCard() {
           </dd>
         </div>
         <div className="px-4 py-3">
-          <dt className="text-2xs uppercase tracking-wide text-ink-subtle">Won today</dt>
+          <dt className="text-2xs uppercase tracking-wide text-ink-subtle">
+            Won today
+          </dt>
           <dd className="tnum mt-1 text-lg font-semibold text-positive">
             {pulse ? formatCompactMoney(pulse.wonTodayCents) : '—'}
           </dd>

@@ -5,14 +5,7 @@ import { ArrowDown, ArrowUp, Download, Inbox } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { useEffect, useMemo, useState } from 'react'
 
-import {
-  Avatar,
-  Button,
-  Card,
-  EmptyState,
-  Skeleton,
-  StagePill,
-} from '@/components/ui'
+import { Avatar, Button, Card, EmptyState, Skeleton, StagePill } from '@/components/ui'
 import type { LeadPage, LeadWithRelations } from '@/db/queries/leads'
 import { useDebouncedValue } from '@/hooks/use-debounced-value'
 import { api, qs } from '@/lib/api/client'
@@ -85,7 +78,9 @@ export function LeadsTable({ initialQuery = '' }: { initialQuery?: string }) {
 
   function exportCsv() {
     // A plain navigation, so the browser handles Content-Disposition itself.
-    router.push(`/api/leads/export${qs({ ...params, page: undefined, pageSize: undefined })}`)
+    router.push(
+      `/api/leads/export${qs({ ...params, page: undefined, pageSize: undefined })}`,
+    )
   }
 
   return (
@@ -104,7 +99,9 @@ export function LeadsTable({ initialQuery = '' }: { initialQuery?: string }) {
         </Button>
       </div>
 
-      <Card className={cn('overflow-hidden transition-opacity', isFetching && 'opacity-70')}>
+      <Card
+        className={cn('overflow-hidden transition-opacity', isFetching && 'opacity-70')}
+      >
         <div className="overflow-x-auto">
           <table className="w-full border-collapse text-sm">
             <thead>

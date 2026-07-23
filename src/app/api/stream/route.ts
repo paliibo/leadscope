@@ -27,7 +27,8 @@ export const GET = handler(async (request: Request) => {
   await requireSession()
 
   const lastEventId = Number(request.headers.get('last-event-id') ?? '')
-  const replayFrom = Number.isFinite(lastEventId) && lastEventId > 0 ? lastEventId : null
+  const replayFrom =
+    Number.isFinite(lastEventId) && lastEventId > 0 ? lastEventId : null
 
   const encoder = new TextEncoder()
   let unsubscribe: (() => void) | null = null

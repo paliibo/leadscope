@@ -18,7 +18,10 @@ export default async function LoginPage({
 
   return (
     <div className="relative flex min-h-dvh items-center justify-center overflow-hidden bg-canvas px-4 py-12">
-      <div className="pointer-events-none absolute inset-0 bg-gradient-mesh" aria-hidden />
+      <div
+        className="pointer-events-none absolute inset-0 bg-gradient-mesh"
+        aria-hidden
+      />
 
       <div className="relative w-full max-w-sm">
         <div className="mb-8 flex flex-col items-center gap-3 text-center">
@@ -37,7 +40,9 @@ export default async function LoginPage({
 
         <p className="mt-6 text-center text-xs text-ink-subtle">
           Demo data is generated locally and resets with{' '}
-          <code className="rounded bg-surface-muted px-1 py-0.5 font-mono">pnpm db:reset</code>
+          <code className="rounded bg-surface-muted px-1 py-0.5 font-mono">
+            pnpm db:reset
+          </code>
         </p>
       </div>
     </div>

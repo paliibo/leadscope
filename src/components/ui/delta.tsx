@@ -22,7 +22,12 @@ export function Delta({
 }) {
   if (change === null) {
     return (
-      <span className={cn('inline-flex items-center gap-1 text-xs text-ink-subtle', className)}>
+      <span
+        className={cn(
+          'inline-flex items-center gap-1 text-xs text-ink-subtle',
+          className,
+        )}
+      >
         <Minus className="h-3 w-3" aria-hidden />
         No baseline
       </span>
@@ -43,8 +48,7 @@ export function Delta({
     >
       <Icon className="h-3 w-3" aria-hidden />
       {change > 0 ? '+' : ''}
-      {change.toFixed(1)}%
-      <span className="font-normal text-ink-subtle">{suffix}</span>
+      {change.toFixed(1)}%<span className="font-normal text-ink-subtle">{suffix}</span>
     </span>
   )
 }

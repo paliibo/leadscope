@@ -49,7 +49,10 @@ async function countCreatedBetween(from: Date, to: Date, ownerId?: string) {
   const filters = [gte(leads.createdAt, from), lt(leads.createdAt, to)]
   if (ownerId) filters.push(eq(leads.ownerId, ownerId))
 
-  const [row] = await db.select({ value: count() }).from(leads).where(and(...filters))
+  const [row] = await db
+    .select({ value: count() })
+    .from(leads)
+    .where(and(...filters))
   return row?.value ?? 0
 }
 
@@ -113,7 +116,9 @@ export async function getOverviewMetrics(options: {
     db
       .select({ value: avg(leads.valueCents) })
       .from(leads)
-      .where(and(eq(leads.stage, 'won'), gte(leads.closedAt, from), lte(leads.closedAt, to))),
+      .where(
+        and(eq(leads.stage, 'won'), gte(leads.closedAt, from), lte(leads.closedAt, to)),
+      ),
   ])
 
   const won = closedRows.find((row) => row.stage === 'won')?.value ?? 0
@@ -215,7 +220,10 @@ export async function getSourceBreakdown(
     .from(leads)
     .where(and(gte(leads.createdAt, from), lte(leads.createdAt, to)))
 
-  const totals = new Map<string, { leads: number; won: number; lost: number; cents: number }>()
+  const totals = new Map<
+    string,
+    { leads: number; won: number; lost: number; cents: number }
+  >()
 
   for (const row of rows) {
     const entry = totals.get(row.source) ?? { leads: 0, won: 0, lost: 0, cents: 0 }

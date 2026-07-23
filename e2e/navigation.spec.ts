@@ -39,7 +39,10 @@ test.describe('navigation', () => {
     await expect(palette).toBeVisible()
 
     await palette.fill('Analytics')
-    await page.getByRole('option', { name: /Analytics/ }).first().click()
+    await page
+      .getByRole('option', { name: /Analytics/ })
+      .first()
+      .click()
     await expect(page).toHaveURL(/\/analytics/)
   })
 

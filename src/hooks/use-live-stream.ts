@@ -40,7 +40,9 @@ export function useLiveStream(onEvent?: (event: LeadscopeEvent) => void): LiveSt
     source.addEventListener('event', (message) => {
       setStatus('live')
       try {
-        const event = JSON.parse((message as MessageEvent<string>).data) as LeadscopeEvent
+        const event = JSON.parse(
+          (message as MessageEvent<string>).data,
+        ) as LeadscopeEvent
         setEvents((previous) => [event, ...previous].slice(0, MAX_EVENTS))
         handlerRef.current?.(event)
       } catch {

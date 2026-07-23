@@ -95,7 +95,13 @@ describe('EventBus', () => {
     const start = 1_800_000_000_000
 
     bus.publish({ type: 'deal.won', actor, subject, summary: 'old', at: start })
-    bus.publish({ type: 'deal.won', actor, subject, summary: 'recent', at: start + 59_000 })
+    bus.publish({
+      type: 'deal.won',
+      actor,
+      subject,
+      summary: 'recent',
+      at: start + 59_000,
+    })
 
     expect(bus.eventsPerMinute(start + 59_500)).toBe(2)
     // The first event has aged out of the 60s window.

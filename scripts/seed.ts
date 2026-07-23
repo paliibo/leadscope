@@ -9,14 +9,7 @@
 import { performance } from 'node:perf_hooks'
 
 import { client, db } from '../src/db'
-import {
-  accounts,
-  activities,
-  goals,
-  leads,
-  reps,
-  teams,
-} from '../src/db/schema'
+import { accounts, activities, goals, leads, reps, teams } from '../src/db/schema'
 import { hashPassword } from '../src/lib/auth/password'
 import { generateDataset } from '../src/lib/demo/generate'
 import { env } from '../src/lib/env'

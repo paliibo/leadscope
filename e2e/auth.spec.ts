@@ -17,7 +17,9 @@ test.describe('authentication', () => {
     await expect(page).toHaveURL(/\/pipeline$/)
   })
 
-  test('rejects a wrong password without saying which field was wrong', async ({ page }) => {
+  test('rejects a wrong password without saying which field was wrong', async ({
+    page,
+  }) => {
     await page.goto('/login')
     await page.getByLabel('Password').fill('not-the-password')
     await page.getByRole('button', { name: 'Sign in' }).click()

@@ -25,9 +25,9 @@ export function VelocityCard({ days }: { days: number }) {
 
   // Present stages in pipeline order, not sorted by duration — the reader is
   // looking for *where* the delay is, and reordering the funnel hides that.
-  const ordered = ORDER.map((stage) => data?.dwell.find((row) => row.stage === stage)).filter(
-    (row): row is StageDwell => Boolean(row),
-  )
+  const ordered = ORDER.map((stage) =>
+    data?.dwell.find((row) => row.stage === stage),
+  ).filter((row): row is StageDwell => Boolean(row))
 
   return (
     <Card>

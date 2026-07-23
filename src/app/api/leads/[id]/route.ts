@@ -75,7 +75,10 @@ export const PATCH = handler(async (request: Request, context: RouteContext) => 
     }
 
     if (input.stage === 'won' || input.stage === 'lost') {
-      bus.publish({ type: input.stage === 'won' ? 'deal.won' : 'deal.lost', ...payload })
+      bus.publish({
+        type: input.stage === 'won' ? 'deal.won' : 'deal.lost',
+        ...payload,
+      })
     } else {
       bus.publish({
         type: 'lead.stage_changed',

@@ -293,7 +293,10 @@ export function generateDataset(options: GenerateOptions): GeneratedDataset {
     }
 
     const createdAt =
-      historyStart + dayIndex * DAY + rng.int(8, 19) * 3_600_000 + rng.int(0, 59) * 60_000
+      historyStart +
+      dayIndex * DAY +
+      rng.int(8, 19) * 3_600_000 +
+      rng.int(0, 59) * 60_000
 
     const account = rng.pick(accounts)
     const owner = rng.pick(reps)
@@ -419,7 +422,8 @@ export function generateDataset(options: GenerateOptions): GeneratedDataset {
         break
       }
 
-      const next: LeadStage = step === PIPELINE.length - 1 ? 'won' : (PIPELINE[step + 1] as LeadStage)
+      const next: LeadStage =
+        step === PIPELINE.length - 1 ? 'won' : (PIPELINE[step + 1] as LeadStage)
 
       if (next === 'won') {
         pushActivity(

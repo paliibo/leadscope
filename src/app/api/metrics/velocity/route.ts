@@ -40,7 +40,13 @@ export const GET = handler(async (request: Request) => {
       })
       .from(leads)
       .where(
-        inArray(leads.stage, ['new', 'contacted', 'qualified', 'proposal', 'negotiation']),
+        inArray(leads.stage, [
+          'new',
+          'contacted',
+          'qualified',
+          'proposal',
+          'negotiation',
+        ]),
       ),
   ])
 

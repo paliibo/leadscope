@@ -24,7 +24,12 @@ export default function AnalyticsPage() {
         <p className="text-sm text-ink-muted">
           Where deals come from, where they stall, and how long they take.
         </p>
-        <Segmented name="Time range" options={RANGES} value={range} onChange={setRange} />
+        <Segmented
+          name="Time range"
+          options={RANGES}
+          value={range}
+          onChange={setRange}
+        />
       </div>
 
       <div className="grid gap-4 lg:grid-cols-2">

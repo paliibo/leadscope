@@ -33,9 +33,11 @@ test.describe('leads', () => {
       .poll(
         async () => [
           ...new Set(
-            await page.locator('tbody [data-stage]').evaluateAll((nodes) =>
-              nodes.map((node) => node.getAttribute('data-stage')),
-            ),
+            await page
+              .locator('tbody [data-stage]')
+              .evaluateAll((nodes) =>
+                nodes.map((node) => node.getAttribute('data-stage')),
+              ),
           ),
         ],
         { timeout: 20_000 },

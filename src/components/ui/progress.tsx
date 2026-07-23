@@ -27,10 +27,16 @@ export function Progress({
       aria-valuemax={100}
       aria-valuenow={Math.round(pct)}
       aria-label={label}
-      className={cn('h-1.5 w-full overflow-hidden rounded-pill bg-surface-muted', className)}
+      className={cn(
+        'h-1.5 w-full overflow-hidden rounded-pill bg-surface-muted',
+        className,
+      )}
     >
       <div
-        className={cn('h-full rounded-pill transition-[width] duration-500', tones[tone])}
+        className={cn(
+          'h-full rounded-pill transition-[width] duration-500',
+          tones[tone],
+        )}
         style={{ width: `${pct}%` }}
       />
     </div>
@@ -75,11 +81,17 @@ export function ProgressRing({
           strokeDashoffset={offset}
           className={cn(
             'transition-[stroke-dashoffset] duration-700',
-            value >= 1 ? 'stroke-positive' : value >= 0.7 ? 'stroke-brand' : 'stroke-warning',
+            value >= 1
+              ? 'stroke-positive'
+              : value >= 0.7
+                ? 'stroke-brand'
+                : 'stroke-warning',
           )}
         />
       </svg>
-      <span className="absolute inset-0 flex items-center justify-center">{children}</span>
+      <span className="absolute inset-0 flex items-center justify-center">
+        {children}
+      </span>
     </div>
   )
 }

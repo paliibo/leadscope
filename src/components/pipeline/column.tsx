@@ -30,7 +30,10 @@ export function Column({
   const shown = leads.slice(0, visible)
 
   return (
-    <section className="flex w-72 shrink-0 flex-col gap-3" aria-label={STAGE_LABELS[stage]}>
+    <section
+      className="flex w-72 shrink-0 flex-col gap-3"
+      aria-label={STAGE_LABELS[stage]}
+    >
       <header className="flex items-baseline justify-between gap-2 px-1">
         <h2 className="text-sm font-medium text-ink">
           {STAGE_LABELS[stage]}

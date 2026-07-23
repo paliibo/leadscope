@@ -41,8 +41,7 @@ export function RevenueCard({ days }: { days: number }) {
 
   // Daily revenue is lumpy — a handful of deals a day — so R² is usually low.
   // Say so plainly rather than presenting a weak fit as a forecast.
-  const fit =
-    trend.r2 >= 0.5 ? 'strong' : trend.r2 >= 0.15 ? 'moderate' : 'noisy'
+  const fit = trend.r2 >= 0.5 ? 'strong' : trend.r2 >= 0.15 ? 'moderate' : 'noisy'
 
   return (
     <Card className="flex flex-col">

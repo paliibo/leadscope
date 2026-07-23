@@ -83,7 +83,10 @@ export class EventBus {
 
   private trimRateWindow(now: number): void {
     const cutoff = now - 60_000
-    while (this.recentTimestamps.length > 0 && (this.recentTimestamps[0] as number) < cutoff) {
+    while (
+      this.recentTimestamps.length > 0 &&
+      (this.recentTimestamps[0] as number) < cutoff
+    ) {
       this.recentTimestamps.shift()
     }
   }

@@ -54,8 +54,16 @@ export function LeadDrawer({
   })
 
   return (
-    <div className="fixed inset-0 z-40 flex justify-end" role="dialog" aria-modal="true">
-      <div className="absolute inset-0 bg-ink/30 backdrop-blur-sm" onClick={onClose} aria-hidden />
+    <div
+      className="fixed inset-0 z-40 flex justify-end"
+      role="dialog"
+      aria-modal="true"
+    >
+      <div
+        className="absolute inset-0 bg-ink/30 backdrop-blur-sm"
+        onClick={onClose}
+        aria-hidden
+      />
 
       <aside className="relative flex h-full w-full max-w-md animate-fade-up flex-col overflow-y-auto border-l border-line bg-surface">
         <header className="sticky top-0 z-10 flex items-start gap-3 border-b border-line bg-surface px-5 py-4">
@@ -108,7 +116,9 @@ export function LeadDrawer({
           <section>
             <div className="mb-3 flex items-baseline justify-between">
               <h3 className="text-sm font-medium text-ink">Fit score</h3>
-              <span className="tnum text-lg font-semibold text-ink">{score.score}/100</span>
+              <span className="tnum text-lg font-semibold text-ink">
+                {score.score}/100
+              </span>
             </div>
             <ul className="flex flex-col gap-2.5">
               {score.components.map((component) => (

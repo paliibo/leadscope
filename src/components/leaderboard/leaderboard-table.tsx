@@ -79,7 +79,12 @@ export function LeaderboardTable() {
           value={metric}
           onChange={(value) => setMetric(value as LeaderboardMetric)}
         />
-        <Segmented name="Time range" options={RANGES} value={range} onChange={setRange} />
+        <Segmented
+          name="Time range"
+          options={RANGES}
+          value={range}
+          onChange={setRange}
+        />
         <div className="ml-auto w-56">
           <Input
             value={search}

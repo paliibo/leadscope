@@ -39,11 +39,7 @@ export function Sidebar({
       )}
       aria-label="Main"
     >
-      <Link
-        href="/"
-        onClick={onNavigate}
-        className="flex items-center gap-2.5 px-2"
-      >
+      <Link href="/" onClick={onNavigate} className="flex items-center gap-2.5 px-2">
         <span className="flex h-8 w-8 items-center justify-center rounded-xl bg-gradient-brand text-sm font-semibold text-white">
           L
         </span>

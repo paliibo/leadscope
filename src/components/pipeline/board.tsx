@@ -75,9 +75,7 @@ export function PipelineBoard() {
         current
           ? {
               leads: current.leads.map((lead) =>
-                lead.id === id
-                  ? { ...lead, stage, updatedAt: new Date() }
-                  : lead,
+                lead.id === id ? { ...lead, stage, updatedAt: new Date() } : lead,
               ),
             }
           : current,
@@ -157,7 +155,9 @@ export function PipelineBoard() {
         ))}
       </div>
 
-      <DragOverlay dropAnimation={{ duration: 180, easing: 'cubic-bezier(0.22,1,0.36,1)' }}>
+      <DragOverlay
+        dropAnimation={{ duration: 180, easing: 'cubic-bezier(0.22,1,0.36,1)' }}
+      >
         {activeLead ? (
           <div className="w-72 rotate-1">
             <LeadCardBody lead={activeLead} dragging />

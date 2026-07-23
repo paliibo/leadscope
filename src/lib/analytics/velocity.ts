@@ -34,9 +34,7 @@ function median(values: number[]): number {
  * sitting in a stage would otherwise drag the average down every time the report
  * is run early.
  */
-export function stageDwellTimes(
-  transitions: readonly StageTransition[],
-): StageDwell[] {
+export function stageDwellTimes(transitions: readonly StageTransition[]): StageDwell[] {
   const byLead = new Map<string, StageTransition[]>()
   for (const transition of transitions) {
     const bucket = byLead.get(transition.leadId)

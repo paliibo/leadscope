@@ -1,7 +1,26 @@
-import { and, asc, count, desc, eq, gte, inArray, like, lte, or, sql } from 'drizzle-orm'
+import {
+  and,
+  asc,
+  count,
+  desc,
+  eq,
+  gte,
+  inArray,
+  like,
+  lte,
+  or,
+  sql,
+} from 'drizzle-orm'
 
 import { db } from '@/db'
-import { accounts, activities, leads, reps, type Lead, type LeadStage } from '@/db/schema'
+import {
+  accounts,
+  activities,
+  leads,
+  reps,
+  type Lead,
+  type LeadStage,
+} from '@/db/schema'
 import type { LeadListQuery, UpdateLeadInput } from '@/lib/validation/leads'
 
 export interface LeadWithRelations extends Lead {
@@ -147,7 +166,9 @@ export async function getLead(id: string): Promise<LeadWithRelations | null> {
 
 /** Every open lead, grouped by stage and ordered for the kanban board. */
 export async function getBoard(ownerId?: string) {
-  const filters = [inArray(leads.stage, ['new', 'contacted', 'qualified', 'proposal', 'negotiation'])]
+  const filters = [
+    inArray(leads.stage, ['new', 'contacted', 'qualified', 'proposal', 'negotiation']),
+  ]
   if (ownerId) filters.push(eq(leads.ownerId, ownerId))
 
   const rows = await db

@@ -36,7 +36,10 @@ export interface StageChangedEvent extends BaseEvent {
 
 export interface TouchLoggedEvent extends BaseEvent {
   type: 'lead.touched'
-  activity: Extract<ActivityType, 'email_sent' | 'call_logged' | 'meeting_booked' | 'note_added'>
+  activity: Extract<
+    ActivityType,
+    'email_sent' | 'call_logged' | 'meeting_booked' | 'note_added'
+  >
 }
 
 export interface DealClosedEvent extends BaseEvent {
@@ -45,10 +48,7 @@ export interface DealClosedEvent extends BaseEvent {
 }
 
 export type LeadscopeEvent =
-  | LeadCreatedEvent
-  | StageChangedEvent
-  | TouchLoggedEvent
-  | DealClosedEvent
+  LeadCreatedEvent | StageChangedEvent | TouchLoggedEvent | DealClosedEvent
 
 export type LeadscopeEventType = LeadscopeEvent['type']
 
@@ -67,5 +67,4 @@ export interface EnvelopeMap {
 }
 
 export type Envelope =
-  | { kind: 'event'; data: LeadscopeEvent }
-  | { kind: 'pulse'; data: PulseSnapshot }
+  { kind: 'event'; data: LeadscopeEvent } | { kind: 'pulse'; data: PulseSnapshot }

@@ -11,7 +11,10 @@ const TONES = {
   negotiation: 'warning',
   won: 'positive',
   lost: 'negative',
-} as const satisfies Record<LeadStage, 'neutral' | 'brand' | 'violet' | 'warning' | 'positive' | 'negative'>
+} as const satisfies Record<
+  LeadStage,
+  'neutral' | 'brand' | 'violet' | 'warning' | 'positive' | 'negative'
+>
 
 export function StagePill({ stage }: { stage: LeadStage }) {
   // data-stage gives tests (and any future styling hook) a stable handle that

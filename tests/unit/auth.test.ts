@@ -44,7 +44,13 @@ describe('password hashing', () => {
   })
 
   it('returns false rather than throwing on a malformed hash', async () => {
-    for (const bad of ['', 'garbage', 'scrypt$only-two', 'bcrypt$aa$bb', 'scrypt$zz$zz']) {
+    for (const bad of [
+      '',
+      'garbage',
+      'scrypt$only-two',
+      'bcrypt$aa$bb',
+      'scrypt$zz$zz',
+    ]) {
       await expect(verifyPassword('anything', bad)).resolves.toBe(false)
     }
   })
@@ -74,8 +80,11 @@ describe('session tokens', () => {
     const [header, body, signature] = token.split('.')
 
     // Flip the last character of the payload segment.
-    const mutated = (body as string).slice(0, -1) + ((body as string).at(-1) === 'a' ? 'b' : 'a')
-    await expect(readSessionToken(`${header}.${mutated}.${signature}`)).resolves.toBeNull()
+    const mutated =
+      (body as string).slice(0, -1) + ((body as string).at(-1) === 'a' ? 'b' : 'a')
+    await expect(
+      readSessionToken(`${header}.${mutated}.${signature}`),
+    ).resolves.toBeNull()
   })
 
   it('rejects a token signed by someone else', async () => {
@@ -88,7 +97,11 @@ describe('session tokens', () => {
     // A token whose payload lacks repId must not produce a half-built session.
     const token = await createSessionToken(payload)
     const parts = token.split('.')
-    const stripped = Buffer.from(JSON.stringify({ iss: 'leadscope' })).toString('base64url')
-    await expect(readSessionToken(`${parts[0]}.${stripped}.${parts[2]}`)).resolves.toBeNull()
+    const stripped = Buffer.from(JSON.stringify({ iss: 'leadscope' })).toString(
+      'base64url',
+    )
+    await expect(
+      readSessionToken(`${parts[0]}.${stripped}.${parts[2]}`),
+    ).resolves.toBeNull()
   })
 })

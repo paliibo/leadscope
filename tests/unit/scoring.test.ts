@@ -15,8 +15,24 @@ describe('scoreLead', () => {
   it('stays within 0-100 across the whole feature space', () => {
     const extremes: ScoreFeatures[] = [
       base,
-      { ...base, source: 'referral', sizeBucket: '1000+', valueCents: 50_000_000, engagementCount: 50, daysSinceLastTouch: 0, hasMeeting: true },
-      { ...base, source: 'ads', sizeBucket: '1-10', valueCents: 0, engagementCount: 0, daysSinceLastTouch: 999, hasMeeting: false },
+      {
+        ...base,
+        source: 'referral',
+        sizeBucket: '1000+',
+        valueCents: 50_000_000,
+        engagementCount: 50,
+        daysSinceLastTouch: 0,
+        hasMeeting: true,
+      },
+      {
+        ...base,
+        source: 'ads',
+        sizeBucket: '1-10',
+        valueCents: 0,
+        engagementCount: 0,
+        daysSinceLastTouch: 999,
+        hasMeeting: false,
+      },
       { ...base, valueCents: -100 },
     ]
     for (const features of extremes) {
@@ -79,13 +95,36 @@ describe('scoreLead', () => {
   })
 
   it('bands the score consistently with its value', () => {
-    expect(scoreLead({ ...base, source: 'referral', sizeBucket: '1000+', valueCents: 40_000_000, engagementCount: 8, daysSinceLastTouch: 0, hasMeeting: true }).band).toBe('hot')
-    expect(scoreLead({ ...base, source: 'ads', sizeBucket: '1-10', valueCents: 100_000, engagementCount: 0, daysSinceLastTouch: 60, hasMeeting: false }).band).toBe('cold')
+    expect(
+      scoreLead({
+        ...base,
+        source: 'referral',
+        sizeBucket: '1000+',
+        valueCents: 40_000_000,
+        engagementCount: 8,
+        daysSinceLastTouch: 0,
+        hasMeeting: true,
+      }).band,
+    ).toBe('hot')
+    expect(
+      scoreLead({
+        ...base,
+        source: 'ads',
+        sizeBucket: '1-10',
+        valueCents: 100_000,
+        engagementCount: 0,
+        daysSinceLastTouch: 60,
+        hasMeeting: false,
+      }).band,
+    ).toBe('cold')
   })
 
   it('returns a breakdown that sums to the score', () => {
     const result = scoreLead(base)
-    const total = result.components.reduce((sum, component) => sum + component.points, 0)
+    const total = result.components.reduce(
+      (sum, component) => sum + component.points,
+      0,
+    )
     expect(result.score).toBe(Math.min(100, total))
   })
 

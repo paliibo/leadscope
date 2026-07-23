@@ -19,7 +19,11 @@ export function QueryProvider({ children }: { children: ReactNode }) {
             refetchOnWindowFocus: false,
             retry: (failureCount, error) => {
               // 4xx means the request was wrong, not unlucky. Don't hammer it.
-              if (error instanceof ApiRequestError && error.status >= 400 && error.status < 500) {
+              if (
+                error instanceof ApiRequestError &&
+                error.status >= 400 &&
+                error.status < 500
+              ) {
                 return false
               }
               return failureCount < 2

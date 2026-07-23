@@ -35,7 +35,6 @@ export function BarChart({
     const line = token('line')
     const max = Math.max(...values, 1)
 
-
     return {
       data: {
         labels: [...labels],
@@ -87,7 +86,9 @@ export function BarChart({
               // Only override the tick formatter on the value axis. Passing
               // `callback: undefined` on the category axis does not fall back to
               // the default — it replaces it, and the labels come out as indices.
-              ...(horizontal ? { callback: (value: number | string) => formatValue(Number(value)) } : {}),
+              ...(horizontal
+                ? { callback: (value: number | string) => formatValue(Number(value)) }
+                : {}),
             },
           },
           y: {
@@ -98,7 +99,9 @@ export function BarChart({
               color: token('ink-subtle'),
               font: { size: 11 },
               maxTicksLimit: 6,
-              ...(horizontal ? {} : { callback: (value: number | string) => formatValue(Number(value)) }),
+              ...(horizontal
+                ? {}
+                : { callback: (value: number | string) => formatValue(Number(value)) }),
             },
           },
         },

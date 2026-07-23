@@ -38,7 +38,9 @@ export function token(name: string, alpha = 1): string {
   const value = getComputedStyle(document.documentElement)
     .getPropertyValue(`--ls-${name}`)
     .trim()
-  return value ? `rgba(${value.split(/\s+/).join(', ')}, ${alpha})` : `rgba(0,0,0,${alpha})`
+  return value
+    ? `rgba(${value.split(/\s+/).join(', ')}, ${alpha})`
+    : `rgba(0,0,0,${alpha})`
 }
 
 /** Vertical fade used under every area series. */

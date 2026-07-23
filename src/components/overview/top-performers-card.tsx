@@ -25,7 +25,10 @@ export function TopPerformersCard({ days }: { days: number }) {
         title="Top performers"
         subtitle={`Closed won, last ${days} days`}
         action={
-          <Link href="/leaderboard" className="text-xs font-medium text-brand hover:underline">
+          <Link
+            href="/leaderboard"
+            className="text-xs font-medium text-brand hover:underline"
+          >
             View all
           </Link>
         }

@@ -78,7 +78,9 @@ export function LeadFiltersBar({
               key={stage}
               type="button"
               aria-pressed={on}
-              onClick={() => onChange({ ...filters, stage: toggle(filters.stage, stage) })}
+              onClick={() =>
+                onChange({ ...filters, stage: toggle(filters.stage, stage) })
+              }
               className={cn(
                 'rounded-pill border px-2.5 py-1 text-xs transition-colors',
                 on

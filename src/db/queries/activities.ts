@@ -21,11 +21,13 @@ export interface ActivityFeedItem {
 }
 
 /** Newest-first activity feed, optionally scoped to one rep or one lead. */
-export async function getActivityFeed(options: {
-  limit?: number
-  repId?: string
-  leadId?: string
-} = {}): Promise<ActivityFeedItem[]> {
+export async function getActivityFeed(
+  options: {
+    limit?: number
+    repId?: string
+    leadId?: string
+  } = {},
+): Promise<ActivityFeedItem[]> {
   const filters = []
   if (options.repId) filters.push(eq(activities.repId, options.repId))
   if (options.leadId) filters.push(eq(activities.leadId, options.leadId))

@@ -64,8 +64,8 @@
   body {
     @apply bg-canvas text-ink antialiased;
     font-family:
-      -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue',
-      Arial, sans-serif;
+      -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial,
+      sans-serif;
     font-feature-settings: 'cv02', 'cv03', 'cv04';
     min-height: 100dvh;
   }
@@ -109,7 +109,10 @@
   }
 
   .wordmark {
-    font-family: 'Graphik', -apple-system, sans-serif;
+    font-family:
+      'Graphik',
+      -apple-system,
+      sans-serif;
     letter-spacing: -0.02em;
   }
 
