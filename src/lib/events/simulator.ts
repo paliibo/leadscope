@@ -183,7 +183,9 @@ class PipelineSimulator {
         ['meeting_booked', 12],
       ] as ReadonlyArray<readonly [TouchType, number]>)
 
-      const summary = `${TOUCH_VERBS[type]} ${lead.name} at ${lead.accountName}`
+      // The account is rendered on the feed's second line, so leaving it out of
+      // the headline keeps it from truncating in a narrow column.
+      const summary = `${TOUCH_VERBS[type]} ${lead.name}`
 
       await db.insert(activities).values({
         id: crypto.randomUUID(),

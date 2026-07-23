@@ -13,7 +13,7 @@ export function ActivityCard() {
     <Card className="flex h-full flex-col">
       <CardHeader
         title="Live activity"
-        subtitle="Streaming straight off the pipeline"
+        subtitle="Straight off the pipeline"
         action={<ConnectionBadge />}
       />
 

@@ -111,8 +111,10 @@ export function LiveTicker({ limit = 12 }: { limit?: number }) {
                   {event.summary}
                 </p>
                 <p className="mt-0.5 truncate text-2xs text-ink-subtle">
-                  {event.actor.name}
-                  {event.type === 'deal.won' || event.type === 'lead.created'
+                  {event.actor.name} · {event.subject.accountName}
+                  {event.type === 'deal.won' ||
+                  event.type === 'deal.lost' ||
+                  event.type === 'lead.created'
                     ? ` · ${formatCompactMoney(event.subject.valueCents)}`
                     : ''}
                 </p>
