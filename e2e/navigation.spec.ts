@@ -69,3 +69,16 @@ test.describe('navigation', () => {
     await expect(page.getByText('Page not found')).toBeVisible()
   })
 })
+
+test.describe('accessibility', () => {
+  test('the skip link is the first stop in the tab order', async ({ page }) => {
+    await signIn(page)
+
+    await page.keyboard.press('Tab')
+    const skip = page.getByRole('link', { name: 'Skip to content' })
+    await expect(skip).toBeFocused()
+
+    await skip.press('Enter')
+    await expect(page.getByRole('main')).toBeFocused()
+  })
+})

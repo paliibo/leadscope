@@ -72,6 +72,16 @@ export function AppShell({
 
   return (
     <CommandPalette>
+      {/*
+        First thing in the tab order. Without it, reaching the page content by
+        keyboard means tabbing past every nav link on every navigation.
+      */}
+      <a
+        href="#content"
+        className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded-pill focus:bg-brand focus:px-4 focus:py-2 focus:text-sm focus:font-medium focus:text-white"
+      >
+        Skip to content
+      </a>
       <div className="flex min-h-dvh bg-canvas">
         <Sidebar session={session} className="hidden lg:flex" />
 
@@ -99,7 +109,9 @@ export function AppShell({
 
         <div className="flex min-w-0 flex-1 flex-col">
           <Topbar onOpenNav={() => setNavOpen(true)} />
-          <main className="flex-1 px-4 py-6 lg:px-8">{children}</main>
+          <main id="content" tabIndex={-1} className="flex-1 px-4 py-6 lg:px-8">
+            {children}
+          </main>
         </div>
       </div>
     </CommandPalette>
