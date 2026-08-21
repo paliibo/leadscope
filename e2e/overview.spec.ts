@@ -23,10 +23,19 @@ test.describe('overview', () => {
   })
 
   test('changing the range refetches', async ({ page }) => {
-    const request = page.waitForRequest((req) => req.url().includes('days=90'))
-    await page.getByRole('radio', { name: '90d' }).click()
-    await request
-    await expect(page.getByRole('radio', { name: '90d' })).toBeChecked()
+    const ninetyDays = page.getByRole('radio', { name: '90d' })
+
+    // Retry the click, not just the assertion: a click that lands before
+    // hydration does nothing and is not replayed.
+    await expect(async () => {
+      await ninetyDays.click()
+      await expect(ninetyDays).toBeChecked({ timeout: 1_000 })
+    }).toPass({ timeout: 15_000 })
+
+    // The cards re-request against the new window and say so.
+    await expect(page.getByText(/last 90 days/i).first()).toBeVisible({
+      timeout: 20_000,
+    })
   })
 
   test('names the worst step in the funnel', async ({ page }) => {

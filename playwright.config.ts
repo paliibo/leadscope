@@ -21,6 +21,10 @@ export default defineConfig({
    */
   workers: process.env.CI ? 1 : 2,
   reporter: process.env.CI ? [['github'], ['html', { open: 'never' }]] : 'list',
+  // The app ships a ~260kB first-load bundle and hydrates before any control
+  // responds. Five seconds is not enough headroom on a loaded machine, and the
+  // resulting failures look like defects rather than contention.
+  expect: { timeout: 10_000 },
   use: {
     baseURL,
     trace: 'on-first-retry',
@@ -47,7 +51,10 @@ export default defineConfig({
     command: `pnpm build && pnpm start --port ${PORT}`,
     url: baseURL,
     reuseExistingServer: !process.env.CI,
-    timeout: 180_000,
+    // A cold production build on a loaded machine regularly passes three
+    // minutes; the previous 180s budget failed the whole suite before a single
+    // test ran.
+    timeout: 300_000,
     // Its own build output, so an e2e run and a running dev server can coexist.
     env: { PORT: String(PORT), NEXT_DIST_DIR: '.next-e2e' },
   },
