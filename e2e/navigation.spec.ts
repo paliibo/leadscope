@@ -25,9 +25,13 @@ test.describe('navigation', () => {
   })
 
   test('supports g-prefixed keyboard shortcuts', async ({ page }) => {
-    await page.keyboard.press('g')
-    await page.keyboard.press('b')
-    await expect(page).toHaveURL(/\/leaderboard/)
+    // Retry the chord, not just the assertion: keypresses that land before the
+    // document listener is attached are dropped and never replayed.
+    await expect(async () => {
+      await page.keyboard.press('g')
+      await page.keyboard.press('b')
+      await expect(page).toHaveURL(/\/leaderboard/, { timeout: 1_500 })
+    }).toPass({ timeout: 15_000 })
   })
 
   test('opens the command palette from the toolbar and jumps to a page', async ({

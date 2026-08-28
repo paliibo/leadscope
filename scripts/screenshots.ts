@@ -1,3 +1,4 @@
+import { chromium, type Page } from '@playwright/test'
 /**
  * Captures the screenshots used in the README.
  *
@@ -9,8 +10,6 @@
  */
 import { mkdir } from 'node:fs/promises'
 import { join } from 'node:path'
-
-import { chromium, type Page } from '@playwright/test'
 
 const BASE_URL = process.env.SCREENSHOT_URL ?? 'http://127.0.0.1:3000'
 const OUT_DIR = join(process.cwd(), 'docs', 'screenshots')
