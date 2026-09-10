@@ -1,13 +1,8 @@
 packages:
   - '.'
 
-allowBuilds:
-  esbuild: set this to true or false
-  unrs-resolver: set this to true or false
-
 # esbuild (vitest/tsx) and unrs-resolver (eslint) ship prebuilt binaries that
 # need their install script to run.
-onlyBuiltDependencies:
-  - esbuild
-  - unrs-resolver
-strictDepBuilds: false
+allowBuilds:
+  esbuild: true
+  unrs-resolver: true
