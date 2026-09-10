@@ -6,6 +6,12 @@ import type { Envelope } from '@/lib/events/types'
 
 export const runtime = 'nodejs'
 export const dynamic = 'force-dynamic'
+/**
+ * Serverless hosts cap how long a response may stay open; 300s is the most the
+ * hobby tier allows. The browser reconnects with `Last-Event-ID` when the
+ * stream ends, so the cut costs a replayed backlog and nothing visible.
+ */
+export const maxDuration = 300
 
 /** Proxies and load balancers drop idle connections; a comment every 15s is enough. */
 const HEARTBEAT_MS = 15_000

@@ -22,8 +22,22 @@ export default defineConfig({
     coverage: {
       provider: 'v8',
       reporter: ['text', 'html', 'lcov'],
-      include: ['src/lib/**/*.ts', 'src/db/queries/**/*.ts'],
-      exclude: ['src/lib/demo/pools.ts', 'src/lib/env.ts'],
+      /**
+       * Measured: the framework-free modules, where a unit test is the right
+       * tool, plus the boot path, which runs against a throwaway database.
+       * Left out: the query layer, the simulator, the route helpers and the
+       * request-scoped session reader — they only mean anything against a
+       * running server, which is what the e2e suite puts them in front of.
+       */
+      include: ['src/lib/**/*.ts', 'src/db/bootstrap.ts'],
+      exclude: [
+        'src/lib/api/**',
+        'src/lib/auth/index.ts',
+        'src/lib/demo/pools.ts',
+        'src/lib/env.ts',
+        'src/lib/events/simulator.ts',
+        'src/lib/events/types.ts',
+      ],
       thresholds: {
         statements: 70,
         branches: 70,

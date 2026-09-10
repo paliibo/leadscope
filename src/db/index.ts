@@ -1,5 +1,7 @@
 import { createClient, type Client } from '@libsql/client'
 import { drizzle, type LibSQLDatabase } from 'drizzle-orm/libsql'
+import { mkdirSync } from 'node:fs'
+import { dirname } from 'node:path'
 
 import { env } from '@/lib/env'
 
@@ -15,7 +17,22 @@ const globalForDb = globalThis as unknown as {
   leadscopeDb?: LibSQLDatabase<typeof schema>
 }
 
+/** The path behind a `file:` URL, written as `file:./x.db` or `file:///x.db`. */
+export function localDatabasePath(url: string): string | null {
+  if (!url.startsWith('file:')) return null
+  return url.replace(/^file:(\/\/)?/, '')
+}
+
 function createDbClient(): Client {
+  // SQLite will not create a missing directory (SQLITE_CANTOPEN, error 14), and
+  // libSQL opens the file the moment the client is made. A fresh clone and a
+  // first container boot both start without ./data, so make it here, once,
+  // rather than in every script that might be the first to touch the database.
+  const path = localDatabasePath(env.DATABASE_URL)
+  if (path && path !== ':memory:') {
+    mkdirSync(dirname(path), { recursive: true })
+  }
+
   const client = createClient({
     url: env.DATABASE_URL,
     authToken: env.DATABASE_AUTH_TOKEN || undefined,

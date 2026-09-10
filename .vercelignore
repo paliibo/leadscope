@@ -1,0 +1,16 @@
+# Only the source and the lockfile need to travel; everything else is either
+# rebuilt on the platform or never read by it.
+node_modules
+.next*
+out
+coverage
+playwright-report
+test-results
+data
+docs
+e2e
+tests
+.idea
+.vscode
+.git
+.github

@@ -11,6 +11,17 @@ const nextConfig = {
   // Traced standalone output: the Docker image ships only the modules actually
   // reachable from the server, which is roughly a tenth of node_modules.
   output: process.env.NEXT_OUTPUT_STANDALONE === '1' ? 'standalone' : undefined,
+  // Two things the file tracer cannot see on its own, and that every route needs:
+  // the checked-in migrations the server applies on boot, and libsql's native
+  // binding, which it loads through a template-string require that no static
+  // analysis can follow. The glob only matches the binding pnpm installed for
+  // the build platform, so an image built on Linux carries the Linux binary.
+  outputFileTracingIncludes: {
+    '/**': [
+      './drizzle/**/*',
+      './node_modules/.pnpm/libsql@*/node_modules/@libsql/**/*',
+    ],
+  },
   images: {
     remotePatterns: [
       { protocol: 'https', hostname: 'i.pravatar.cc' },

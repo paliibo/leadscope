@@ -128,7 +128,7 @@ palette's open flag and the theme, which is one context and one library respecti
 **Decision.** Removed.
 
 **Why.** With the boundary present, the streamed Suspense content was left behind in a
-`<div hidden id="S:0">` *as well as* being rendered into the page — 7 KB of duplicated
+`<div hidden id="S:0">` _as well as_ being rendered into the page — 7 KB of duplicated
 markup on every load, including a second copy of every interactive control. Invisible to
 a user, but it put duplicates in the accessibility tree and made every role-based
 selector ambiguous. The pages fetch client-side and render their own skeletons, so the
@@ -144,3 +144,24 @@ boundary was buying an instant server shell that nothing was waiting on.
 writing throughout. Past two browsers the app stops hydrating inside the assertion
 timeouts, and the suite starts reporting contention as defects — the worst kind of
 flake, because it looks like a real failure.
+
+---
+
+## 11. The server bootstraps its own database
+
+**Context.** Migrations and the seed were scripts, run by hand before `pnpm dev`. The
+Docker image started `node server.js` against an empty volume and served errors, and a
+fresh clone failed before its first query because `./data` did not exist yet.
+
+**Decision.** `instrumentation.ts` runs `ensureDatabase()` once per server instance:
+create the directory, apply pending migrations, and seed if the `reps` table is empty.
+The CLI scripts call the same functions.
+
+**Why.** The three ways this app gets started — a clone, a container, a serverless cold
+start — all begin with no tables, and each was one forgotten step away from a broken
+demo. The seed is deterministic and takes about a second, which is what makes "seed if
+empty" safe to run on every boot; a no-op boot costs one `count(*)`.
+
+**Cost.** A database you manage yourself gets migrated by the app unless `DB_BOOTSTRAP=0`
+is set. On a serverless host every instance seeds its own copy, so state is per instance
+until `DATABASE_URL` points at a remote database.

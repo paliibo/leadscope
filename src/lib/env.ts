@@ -16,6 +16,10 @@ const schema = z.object({
     .enum(['0', '1'])
     .default('1')
     .transform((value) => value === '1'),
+  DB_BOOTSTRAP: z
+    .enum(['0', '1'])
+    .default('1')
+    .transform((value) => value === '1'),
   NODE_ENV: z.enum(['development', 'test', 'production']).default('development'),
 })
 
@@ -25,6 +29,7 @@ const parsed = schema.safeParse({
   AUTH_SECRET: process.env.AUTH_SECRET,
   SEED: process.env.SEED,
   LIVE_SIMULATOR: process.env.LIVE_SIMULATOR,
+  DB_BOOTSTRAP: process.env.DB_BOOTSTRAP,
   NODE_ENV: process.env.NODE_ENV,
 })
 
