@@ -2,6 +2,7 @@
   "name": "leadscope",
   "version": "1.0.0",
   "private": true,
+  "packageManager": "pnpm@11.18.0",
   "description": "Real-time sales pipeline intelligence \u2014 live lead stream, drag-and-drop pipeline, forecasting and team leaderboards.",
   "engines": {
     "node": ">=20.11"
