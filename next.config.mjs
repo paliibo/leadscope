@@ -14,13 +14,10 @@ const nextConfig = {
   // Two things the file tracer cannot see on its own, and that every route needs:
   // the checked-in migrations the server applies on boot, and libsql's native
   // binding, which it loads through a template-string require that no static
-  // analysis can follow. The glob only matches the binding pnpm installed for
-  // the build platform, so an image built on Linux carries the Linux binary.
+  // analysis can follow. Only the binding pnpm installed for the build platform
+  // exists on disk, so an image built on Linux carries the Linux binary.
   outputFileTracingIncludes: {
-    '/**': [
-      './drizzle/**/*',
-      './node_modules/.pnpm/libsql@*/node_modules/@libsql/**/*',
-    ],
+    '/**': ['./drizzle/**/*', './node_modules/@libsql/**/*'],
   },
   images: {
     remotePatterns: [

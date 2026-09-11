@@ -1,6 +1,13 @@
 packages:
   - '.'
 
+# A flat node_modules, like npm's. The traced bundles (standalone image, Vercel
+# functions) copy files by path, and Vercel's packager rejects any file reached
+# through a symlinked directory — which, in pnpm's isolated layout, is every
+# file in every package. Hoisting costs the isolation guarantees, which an
+# application with a lockfile does not lean on.
+nodeLinker: hoisted
+
 # esbuild (vitest/tsx) and unrs-resolver (eslint) ship prebuilt binaries that
 # need their install script to run.
 allowBuilds:
