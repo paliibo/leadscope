@@ -165,3 +165,18 @@ empty" safe to run on every boot; a no-op boot costs one `count(*)`.
 **Cost.** A database you manage yourself gets migrated by the app unless `DB_BOOTSTRAP=0`
 is set. On a serverless host every instance seeds its own copy, so state is per instance
 until `DATABASE_URL` points at a remote database.
+
+---
+
+## 12. pnpm's hoisted linker
+
+**Context.** pnpm's default layout keeps every package under `node_modules/.pnpm` and
+reaches it through symlinks. The traced bundles copy files by path, and Vercel's
+packager rejects any file reached through a symlinked directory — which, in that
+layout, is every file in every package, including libsql's native binding.
+
+**Decision.** `nodeLinker: hoisted` in `pnpm-workspace.yaml`: a flat `node_modules`,
+the way npm lays it out, for every environment rather than only for the deploy.
+
+**Cost.** The isolation that stops code importing a dependency it never declared. An
+application with a lockfile and a typechecker does not lean on it; a library would.
